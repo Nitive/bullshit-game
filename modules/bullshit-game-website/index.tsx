@@ -1,17 +1,26 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import xs from 'xstream'
-
 import { render } from 'renderer'
+import { MistakesListPage } from './pages/list'
+import { IAppData, data } from 'data'
 
-export default function main() {
-  const vdom = <div style={{ color: 'red' }}>The quick brown fox jumps</div>
+interface IAppSources {
+  data: IAppData
+}
+
+export default function app({ data }: IAppSources) {
+  const vdom = <MistakesListPage mistakesGroups={data.mistakesGroups} />
   const vdom$ = xs.of(vdom)
 
   return {
-    DOM: vdom$
+    DOM: vdom$,
   }
 }
 
-const app = document.createElement('div')
-document.body.appendChild(app)
-render(main().DOM, app)
+const node = document.createElement('div')
+document.body.appendChild(node)
+
+const sources = {
+  data,
+}
+render(app(sources).DOM, node)

@@ -22,7 +22,10 @@ const config: Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin()
-  ]
+  ],
+  resolve: {
+    extensions: ['.js', '.json', '.ts', '.tsx']
+  }
 }
 
 export default config

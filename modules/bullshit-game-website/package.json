@@ -1,5 +1,12 @@
 {
   "name": "bullshit-game-website",
   "version": "0.1.0",
-  "main": "index.ts"
+  "main": "index.tsx",
+  "dependencies": {
+    "callbag-basics": "^2.0.1",
+    "snabbdom": "^0.7.1",
+    "snabbdom-pragma": "^2.6.0",
+    "snabbdom-to-html": "^5.1.0",
+    "xstream": "^11.2.0"
+  }
 }

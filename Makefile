@@ -7,5 +7,8 @@ build-scripts:
 watch:
 	npx webpack --config ./modules/build/webpack.config.ts --mode=development --watch
 
+prerender:
+	npx ts-node ./modules/prerender/index.ts
+
 open:
 	open dist/index.html

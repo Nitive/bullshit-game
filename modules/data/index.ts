@@ -34,7 +34,7 @@ export const data: IAppData = {
       color: 'yellow',
       mistakes: [
         {
-          id: 'haha 1',
+          id: 'haha-1',
           shortName: 'Высменивание 1',
           fullName: 'Высмеивание аргумента или человека без опровержения самого аргумента',
           examples: [

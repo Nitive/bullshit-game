@@ -1,0 +1,15 @@
+{
+  "name": "build",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@types/node": "^9.4.6",
+    "@types/webpack": "^3.8.8",
+    "html-webpack-plugin": "^3.0.4",
+    "ts-loader": "^4.0.1",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.7.2",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10"
+  }
+}

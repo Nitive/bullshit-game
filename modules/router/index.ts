@@ -27,10 +27,8 @@ function getLocation$(history: History): Stream<Location> {
         })
       },
       stop() {
-        if (unlisten) {
-          unlisten()
-        }
-      }
+        unlisten()
+      },
     })
     .startWith(history.location)
 }
@@ -64,7 +62,7 @@ export function createRouter(history: History): { router: Router, runRouter: (ac
   function runRouter(action$: Stream<RouterAction>) {
     action$
       .addListener({
-        next: handleRouterAction(history)
+        next: handleRouterAction(history),
       })
   }
 

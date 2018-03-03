@@ -17,6 +17,6 @@ export function render(vdom$: Stream<VNode | HTMLElement>, node: HTMLElement) {
     .addListener({
       next([prev, next]: [VNode | HTMLElement, VNode]) {
         patch(prev, next)
-      }
+      },
     })
 }

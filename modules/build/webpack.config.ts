@@ -1,8 +1,7 @@
 import { Configuration } from 'webpack'
 import * as path from 'path'
+// tslint:disable-next-line:variable-name
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
-// const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 const config: Configuration = {
   entry: {
@@ -21,11 +20,11 @@ const config: Configuration = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin(),
   ],
   resolve: {
-    extensions: ['.js', '.json', '.ts', '.tsx']
-  }
+    extensions: ['.js', '.json', '.ts', '.tsx'],
+  },
 }
 
 export default config

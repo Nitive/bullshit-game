@@ -12,3 +12,6 @@ prerender:
 
 open:
 	open dist/index.html
+
+lint:
+	npx tslint --project .

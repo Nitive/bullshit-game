@@ -1,7 +1,7 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { MistakesListPage } from './pages/list'
 import { data } from 'data'
-import { Router } from 'router';
+import { Router } from 'router'
 import xs from 'xstream'
 
 interface IAppSources {
@@ -21,6 +21,6 @@ export function main({ router }: IAppSources) {
     DOM: vdom$,
     router: xs.periodic(1000)
       .fold(acc => ! acc, true)
-      .map(x => router.push(x ? '/' : '/mistake/1/' ))
+      .map(x => router.push(x ? '/' : '/mistake/1/')),
   }
 }

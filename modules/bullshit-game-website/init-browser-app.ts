@@ -1,7 +1,7 @@
 import { render } from 'renderer'
 import { createRouter } from 'router'
 import createBrowserHistory from 'history/createBrowserHistory'
-import { main } from '.';
+import { main } from '.'
 
 const node = document.createElement('div')
 document.body.appendChild(node)

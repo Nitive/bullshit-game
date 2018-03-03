@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "main": "index.tsx",
   "dependencies": {
+    "@types/history": "^4.6.2",
     "callbag-basics": "^2.0.1",
+    "history": "^4.7.2",
     "snabbdom": "^0.7.1",
     "snabbdom-pragma": "^2.6.0",
     "snabbdom-to-html": "^5.1.0",

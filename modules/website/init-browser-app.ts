@@ -3,8 +3,17 @@ import { createRouter } from 'router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { main } from '.'
 
-const node = document.createElement('div')
-document.body.appendChild(node)
+function getNode() {
+  const appNode = document.getElementById('app')
+  if (appNode) {
+    return appNode
+  }
+
+  const node = document.createElement('div')
+  document.body.appendChild(node)
+
+  return node
+}
 
 const history = createBrowserHistory()
 const { router, runRouter } = createRouter(history)
@@ -15,5 +24,5 @@ const sources = {
 
 const app = main(sources)
 
-render(app.DOM, node)
+render(app.DOM, getNode())
 runRouter(app.router)

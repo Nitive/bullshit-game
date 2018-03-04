@@ -1,3 +1,4 @@
+import * as Snabbdom from 'snabbdom-pragma'
 import toHTML = require('snabbdom-to-html')
 import { data, IAppData } from 'data'
 import { createRouter } from 'router'
@@ -7,6 +8,8 @@ import xs, { Stream } from 'xstream'
 import * as path from 'path'
 import mkdirp = require('mkdirp-promise')
 import * as fs from 'mz/fs'
+import { VNode } from 'snabbdom/vnode'
+import { getEnv } from 'utils/get-env'
 
 function getPossibleUrls(appData: IAppData): string[] {
   const mistakesUrls = appData.mistakesGroups
@@ -20,30 +23,56 @@ function getPossibleUrls(appData: IAppData): string[] {
   ]
 }
 
-function renderPage(path: string): Stream<string> {
+interface Assets {
+  js: string,
+}
+
+function renderMainTemplate(content: VNode, assets: Assets) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Логические ошибки</title>
+      </head>
+      <body>
+        <div id="app">
+          {content}
+        </div>
+        <script src={assets.js}></script>
+      </body>
+    </html>
+  )
+}
+
+
+function renderPage(path: string, assets: Assets): Stream<string> {
   const history = createMemoryHistory({ initialEntries: [path] })
   const { router } = createRouter(history)
   const app = main({ router })
   return app.DOM
     .take(1)
+    .map(vdom => renderMainTemplate(vdom, assets))
     .map(toHTML)
+    .map(html => '<!DOCTYPE html>' + html)
 }
 
-function renderPages(urls: string[]) {
+function renderPages(urls: string[], assets: Assets) {
   return xs.combine(
-    ...urls.map(path => renderPage(path).map(content => ({ path, content }))),
+    ...urls.map(path => renderPage(path, assets).map(content => ({ path, content }))),
   )
 }
 
-const folder = process.env.BUILD_FOLDER
-if (!folder) {
-  throw new Error('Specify BUILD_FOLDER env to run prerender')
+const buildFolder = path.join(getEnv('ROOT'), getEnv('BUILD_FOLDER'))
+const stats = require(path.join(getEnv('ROOT'), getEnv('STATS_PATH')))
+const jsPath = path.join(getEnv('ASSETS_PATH'), stats.assetsByChunkName.main)
+
+const assets = {
+  js: jsPath,
 }
-
-const buildFolder = path.resolve(__dirname, '../../', folder)
-
 const urls = getPossibleUrls(data)
-const pages$ = renderPages(urls)
+const pages$ = renderPages(urls, assets)
 
 pages$
   .addListener({

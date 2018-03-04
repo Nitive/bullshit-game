@@ -1,14 +1,18 @@
-import { Configuration } from 'webpack'
+import { Configuration, DefinePlugin } from 'webpack'
 import * as path from 'path'
-// tslint:disable-next-line:variable-name
+import { getEnv } from 'utils/get-env'
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const StatsPlugin = require('stats-webpack-plugin')
+
+const root = getEnv('ROOT')
+const scriptsFolder = getEnv('ASSETS_FOLDER')
 
 const config: Configuration = {
   entry: {
     main: ['website/init-browser-app'],
   },
   output: {
-    path: path.resolve(__dirname, '../../dist'),
+    path: path.join(root, scriptsFolder),
     filename: '[name]/app.[hash].js',
   },
   module: {
@@ -21,6 +25,10 @@ const config: Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
+    new StatsPlugin('stats.json'),
+    new DefinePlugin({
+      'process.env.PUBLIC_PATH': JSON.stringify(getEnv('PUBLIC_PATH')),
+    }),
   ],
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],

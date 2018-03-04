@@ -6,6 +6,7 @@
     "import-name": [false],
     "ter-arrow-parens": [true, "as-needed"],
     "function-name": [false],
+    "variable-name": [false],
     "object-shorthand-properties-first": [false],
     "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
   }

@@ -6,6 +6,7 @@
 .text {
   margin-top: 15px;
   font-size: 11px;
+  letter-spacing: 0.3px;
   color: hsl(0, 0%, 40%);
 }
 

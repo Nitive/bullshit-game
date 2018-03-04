@@ -11,7 +11,6 @@ export function MistakesListPage(props: { mistakesGroups: IMistakesGroup[] }) {
   return (
     <Page>
       <main>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic" rel="stylesheet" />
         <Title>Ошибки в&nbsp;аргументации</Title>
         <Box top={30}>
           <MistakesGroupsList mistakesGroups={props.mistakesGroups} />

@@ -7,22 +7,11 @@ import { isTruly } from '../utils/is-truly'
 import { MistakePage } from './pages/mistake'
 
 import './style.css'
+import { mistakeLink, isLocalLink } from './utils/routing'
 
 interface IAppSources {
   DOM: DOMSource,
   router: Router,
-}
-
-function isLocalLink(link: string) {
-  return link.startsWith('/') && ! link.startsWith('//')
-}
-
-function createUrl(path: string) {
-  const publicPath = process.env.PUBLIC_PATH || ''
-
-  return isLocalLink(path)
-    ? publicPath.replace(/\/$/, '') + path
-    : path
 }
 
 export function main({ router, DOM }: IAppSources) {
@@ -32,7 +21,7 @@ export function main({ router, DOM }: IAppSources) {
 
   const vdom$ = router.location$
     .map(location => {
-      if (location.pathname.startsWith(createUrl('/mistake/'))) {
+      if (location.pathname.startsWith(mistakeLink(''))) {
         const mistakeId = location.pathname
           .replace(/.*mistake\//, '')
           .replace(/\//, '')
@@ -49,7 +38,7 @@ export function main({ router, DOM }: IAppSources) {
     .filter(e => e.toElement.nodeName === 'A')
     .map(event => {
       const href = (event.toElement as HTMLAnchorElement).getAttribute('href')
-      if (href && href.startsWith('/')) {
+      if (href && isLocalLink(href)) {
         event.preventDefault()
         return router.push(href)
       }

@@ -1,10 +1,13 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { IMistakesGroup, IMistake } from 'data'
+import { mistakeLink } from '../../utils/routing'
 const styles = require('./style.css')
 
 function Mistake({ mistake }: { mistake: IMistake }) {
   return (
-    <li className={styles.mistake}>{mistake.shortName}</li>
+    <li className={styles.mistake}>
+      <a className={styles.mistakeLink} href={mistakeLink(mistake.id)}>{mistake.shortName}</a>
+    </li>
   )
 }
 

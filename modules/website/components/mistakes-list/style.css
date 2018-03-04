@@ -10,7 +10,21 @@
 }
 
 .mistake {
-  font-size: 16px;
   margin-bottom: 6px;
+}
+
+.mistakeLink {
+  font-size: 16px;
   line-height: 23px;
+  color: hsl(212, 100%, 100%);
+  text-decoration: none;
+  display: block;
+
+  &:active {
+    color: hsl(212, 100%, 80%);
+  }
+
+  &:visited {
+    color: hsl(242, 100%, 80%);
+  }
 }

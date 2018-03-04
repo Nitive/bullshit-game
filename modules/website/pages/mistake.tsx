@@ -1,10 +1,11 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { IMistake } from 'data'
+import { ToList } from '../components/to-list'
 
 export function MistakePage({ mistake }: { mistake: IMistake }) {
   return (
     <div>
-      <a href="/">← К списку ошибок</a>
+      <ToList />
       <div>
         <span>{mistake.shortName}</span>
         <h1>{mistake.fullName}</h1>

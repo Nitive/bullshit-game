@@ -1,7 +1,7 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { IMistakesGroup, IMistake } from 'data'
 import { mistakeLink } from '../../utils/routing'
-import { ColorMark } from '../../ui/color-mark';
+import { ColorMark } from '../../ui/color-mark'
 const styles = require('./style.css')
 
 function Mistake({ mistake }: { mistake: IMistake }) {

@@ -43,6 +43,6 @@ prerender: build-client build-server
 	npx ts-node ./modules/prerender
 
 lint:
-	npx tslint --project .
+	npx tslint --project . --format stylish
 
 production: prerender

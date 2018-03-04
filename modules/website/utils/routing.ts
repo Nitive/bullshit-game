@@ -3,9 +3,9 @@ export function isLocalLink(link: string) {
 }
 
 function createUrl(path: string) {
-  const publicPath = process.env.PUBLIC_PATH || ''
+  const publicPath = process.env.PUBLIC_PATH
 
-  return isLocalLink(path)
+  return publicPath && isLocalLink(path)
     ? publicPath.replace(/\/$/, '') + path
     : path
 }

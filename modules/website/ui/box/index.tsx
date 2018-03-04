@@ -11,7 +11,7 @@ interface BoxProps {
 }
 
 function styleValue(value: number | string | undefined): string {
-  if (!value) {
+  if (value === undefined || value === 0) {
     return ''
   }
 
@@ -25,12 +25,14 @@ function styleValue(value: number | string | undefined): string {
 export function Box(props: BoxProps, children?: Snabbdom.Children) {
   const { x, y } = props
 
+  // tslint:disable:strict-boolean-expressions
   const style = {
     marginBottom: styleValue(props.bottom || y),
     marginLeft: styleValue(props.left || x),
     marginRight: styleValue(props.right || x),
     marginTop: styleValue(props.top || y),
   }
+  // tslint:enable:strict-boolean-expressions
 
   return <div style={style} className={props.containerClass}>{children}</div>
 }

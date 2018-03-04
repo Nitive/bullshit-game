@@ -4,6 +4,7 @@ import { data } from 'data'
 import { Router } from 'router'
 import { DOMSource } from 'renderer'
 import { isTruly } from '../utils/is-truly'
+import { MistakePage } from './pages/mistake'
 
 interface IAppSources {
   DOM: DOMSource,
@@ -23,10 +24,21 @@ function createUrl(path: string) {
 }
 
 export function main({ router, DOM }: IAppSources) {
+  const allMistakes = data.mistakesGroups
+    .map(group => group.mistakes)
+    .reduce((acc, x) => acc.concat(x), [])
+
   const vdom$ = router.location$
     .map(location => {
       if (location.pathname.startsWith(createUrl('/mistake/'))) {
-        return <div>mistake</div>
+        const mistakeId = location.pathname
+          .replace(/.*mistake\//, '')
+          .replace(/\//, '')
+        console.log(mistakeId)
+        const mistake = allMistakes.find(m => m.id === mistakeId)
+        if (mistake) {
+          return <MistakePage mistake={mistake} />
+        }
       }
       return <MistakesListPage mistakesGroups={data.mistakesGroups} />
     })

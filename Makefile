@@ -1,5 +1,10 @@
+ifndef BUILD_FOLDER
+	export BUILD_FOLDER = public
+endif
+
 clean:
 	rm -rf dist/
+	rm -rf $$BUILD_FOLDER
 
 build-scripts:
 	npx webpack --config ./modules/build/webpack.config.ts --mode=development

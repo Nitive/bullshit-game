@@ -11,7 +11,7 @@ export function MistakesListPage(props: { mistakesGroups: IMistakesGroup[] }) {
   return (
     <Page>
       <main>
-        <Title>Ошибки в&nbsp;аргументации</Title>
+        <Title>Ошибки в аргументации</Title>
         <Box top={30}>
           <MistakesGroupsList mistakesGroups={props.mistakesGroups} />
         </Box>

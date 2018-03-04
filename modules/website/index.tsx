@@ -15,10 +15,6 @@ interface IAppSources {
 }
 
 export function main({ router, DOM }: IAppSources) {
-  const allMistakes = data.mistakesGroups
-    .map(group => group.mistakes)
-    .reduce((acc, x) => acc.concat(x), [])
-
   const vdom$ = router.location$
     .map(location => {
       if (location.pathname.startsWith(mistakeLink(''))) {
@@ -26,9 +22,11 @@ export function main({ router, DOM }: IAppSources) {
           .replace(/.*mistake\//, '')
           .replace(/\//, '')
 
-        const mistake = allMistakes.find(m => m.id === mistakeId)
-        if (mistake) {
-          return <MistakePage mistake={mistake} />
+        const mistakeGroup = data.mistakesGroups.find(group => group.mistakes.some(m => m.id === mistakeId))
+        const mistake = mistakeGroup && mistakeGroup.mistakes.find(m => m.id === mistakeId)
+        console.log(mistakeGroup && mistake)
+        if (mistakeGroup && mistake) {
+          return <MistakePage mistake={mistake} color={mistakeGroup.color} />
         }
       }
       return <MistakesListPage mistakesGroups={data.mistakesGroups} />

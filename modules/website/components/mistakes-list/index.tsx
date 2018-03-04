@@ -1,6 +1,7 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { IMistakesGroup, IMistake } from 'data'
 import { mistakeLink } from '../../utils/routing'
+import { ColorMark } from '../../ui/color-mark';
 const styles = require('./style.css')
 
 function Mistake({ mistake }: { mistake: IMistake }) {
@@ -14,7 +15,7 @@ function Mistake({ mistake }: { mistake: IMistake }) {
 function MistakesGroup({ group }: { group: IMistakesGroup }) {
   return (
     <div>
-      <div className={styles.colorMark} style={{ backgroundColor: group.color }} />
+      <ColorMark color={group.color} />
       <ul className={styles.mistakesGroup}>
         {group.mistakes.map(mistake => <Mistake mistake={mistake} />)}
       </ul>

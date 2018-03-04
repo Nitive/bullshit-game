@@ -44,3 +44,5 @@ prerender: build-client build-server
 
 lint:
 	npx tslint --project .
+
+production: prerender

@@ -1,0 +1,29 @@
+language: node_js
+
+cache:
+  yarn: true
+
+node_js:
+  - v8
+
+script:
+  - make lint
+  - make production
+
+env:
+  global:
+    - BUILD_FOLDER: public
+    - ASSETS_FOLDER: public/scripts
+    - ASSETS_PATH: /bullshit-game/scripts/
+    - STATS_PATH: public/scripts/stats.json
+    - PUBLIC_PATH: /bullshit-game/
+    - NODE_ENV: production
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: local
+  on:
+    branch: master

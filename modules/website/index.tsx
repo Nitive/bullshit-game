@@ -1,20 +1,13 @@
 import * as Snabbdom from 'snabbdom-pragma'
 import { MistakesListPage } from './pages/list'
 import { data } from 'data'
-import { Router } from 'router'
-import { DOMSource } from 'renderer'
 import { isTruly } from '../utils/is-truly'
 import { MistakePage } from './pages/mistake'
-
-import './style.css'
+import { AppSources, AppSinks } from './types'
 import { mistakeLink, isLocalLink } from './utils/routing'
+require('./style.css')
 
-interface IAppSources {
-  DOM: DOMSource,
-  router: Router,
-}
-
-export function main({ router, DOM }: IAppSources) {
+export function main({ router, DOM }: AppSources): AppSinks {
   const vdom$ = router.location$
     .map(location => {
       if (location.pathname.startsWith(mistakeLink(''))) {
@@ -24,7 +17,7 @@ export function main({ router, DOM }: IAppSources) {
 
         const mistakeGroup = data.mistakesGroups.find(group => group.mistakes.some(m => m.id === mistakeId))
         const mistake = mistakeGroup && mistakeGroup.mistakes.find(m => m.id === mistakeId)
-        console.log(mistakeGroup && mistake)
+
         if (mistakeGroup && mistake) {
           return <MistakePage mistake={mistake} color={mistakeGroup.color} />
         }

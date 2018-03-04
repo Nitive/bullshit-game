@@ -19,6 +19,10 @@ ifndef PUBLIC_PATH
 	export PUBLIC_PATH = /
 endif
 
+ifndef NODE_ENV
+	export NODE_ENV = development
+endif
+
 export ROOT = $(shell pwd)
 
 clean:
@@ -26,13 +30,16 @@ clean:
 	rm -rf $$STATS_PATH
 	rm -rf $$BUILD_FOLDER
 
-build-scripts:
-	npx webpack --config ./modules/build/webpack.config.ts --mode=development
+build-client:
+	npx webpack --config ./modules/build/webpack.client.ts --mode=$$NODE_ENV
 
 watch:
-	npx webpack --config ./modules/build/webpack.config.ts --mode=development --watch
+	npx webpack --config ./modules/build/webpack.client.ts --mode=$$NODE_ENV --watch
 
-prerender: build-scripts
+build-server:
+	npx webpack --config ./modules/build/webpack.server.ts --mode=$$NODE_ENV
+
+prerender: build-client build-server
 	npx ts-node ./modules/prerender
 
 lint:

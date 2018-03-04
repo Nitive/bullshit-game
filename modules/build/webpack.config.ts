@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config: Configuration = {
   entry: {
-    main: ['bullshit-game-website/init-browser-app'],
+    main: ['website/init-browser-app'],
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),

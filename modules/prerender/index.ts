@@ -2,7 +2,7 @@ import toHTML = require('snabbdom-to-html')
 import { data, IAppData } from 'data'
 import { createRouter } from 'router'
 import createMemoryHistory from 'history/createMemoryHistory'
-import { main } from '../bullshit-game-website'
+import { main } from 'website'
 import xs, { Stream } from 'xstream'
 
 function getPossibleUrls(appData: IAppData): string[] {

@@ -1,0 +1,16 @@
+.mistakesGroup {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.colorMark {
+  height: 2px;
+}
+
+.mistake {
+  font-size: 16px;
+  margin-bottom: 6px;
+  line-height: 23px;
+}

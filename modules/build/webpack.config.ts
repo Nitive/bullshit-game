@@ -21,10 +21,27 @@ const config: Configuration = {
         test: /\.tsx?$/,
         use: 'ts-loader',
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[local]_[hash:base64:5]',
+            },
+          },
+          { loader: 'postcss-loader', options: require('./postcss.config') },
+        ],
+      },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './template.ejs'),
+    }),
     new StatsPlugin('stats.json'),
     new DefinePlugin({
       'process.env.PUBLIC_PATH': JSON.stringify(getEnv('PUBLIC_PATH')),

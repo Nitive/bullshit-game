@@ -9,6 +9,7 @@ const patch = init([
   require('snabbdom/modules/props').default,
   require('snabbdom/modules/style').default,
   require('snabbdom/modules/eventlisteners').default,
+  require('snabbdom/modules/dataset').default,
 ])
 
 export interface DOMSource {

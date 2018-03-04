@@ -6,6 +6,8 @@ import { DOMSource } from 'renderer'
 import { isTruly } from '../utils/is-truly'
 import { MistakePage } from './pages/mistake'
 
+import './style.css'
+
 interface IAppSources {
   DOM: DOMSource,
   router: Router,
@@ -34,7 +36,7 @@ export function main({ router, DOM }: IAppSources) {
         const mistakeId = location.pathname
           .replace(/.*mistake\//, '')
           .replace(/\//, '')
-        console.log(mistakeId)
+
         const mistake = allMistakes.find(m => m.id === mistakeId)
         if (mistake) {
           return <MistakePage mistake={mistake} />

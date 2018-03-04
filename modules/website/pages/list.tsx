@@ -1,26 +1,23 @@
 import * as Snabbdom from 'snabbdom-pragma'
-import { IMistakesGroup, IMistake } from 'data'
+import { IMistakesGroup } from 'data'
+import { Title } from '../ui/title'
+import { Page } from '../ui/page'
+import { Footer } from '../components/footer'
+import { MistakesGroupsList } from '../components/mistakes-list'
+import { Box } from '../ui/box'
 
-function Mistake({ mistake }: { mistake: IMistake }) {
-  return (
-    <li>{mistake.shortName}</li>
-  )
-}
 
-function MistakesGroup({ group }: { group: IMistakesGroup }) {
+export function MistakesListPage(props: { mistakesGroups: IMistakesGroup[] }) {
   return (
-    <ul data-colormark={group.color}>
-      {group.mistakes.map(mistake => <Mistake mistake={mistake} />)}
-    </ul>
-  )
-}
-
-export function MistakesListPage({ mistakesGroups }: { mistakesGroups: IMistakesGroup[] }) {
-  return (
-    <div>
-      <h1>Ошибки в аргументации</h1>
-      <a href="/mistake/haha/">test</a>
-      {mistakesGroups.map(group => <MistakesGroup group={group} />)}
-    </div>
+    <Page>
+      <main>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic" rel="stylesheet" />
+        <Title>Ошибки в&nbsp;аргументации</Title>
+        <Box top={30}>
+          <MistakesGroupsList mistakesGroups={props.mistakesGroups} />
+        </Box>
+      </main>
+      <Footer />
+    </Page>
   )
 }

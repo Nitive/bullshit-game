@@ -8,6 +8,7 @@
     "function-name": [false],
     "variable-name": [false],
     "object-shorthand-properties-first": [false],
+    "prefer-array-literal": [false],
     "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
   }
 }

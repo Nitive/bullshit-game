@@ -1,0 +1,14 @@
+.line {
+  height: 2px;
+  background-color: hsl(0, 0%, 40%);
+}
+
+.text {
+  margin-top: 15px;
+  font-size: 11px;
+  color: hsl(0, 0%, 40%);
+}
+
+.link {
+  color: hsl(212, 90%, 40%)
+}

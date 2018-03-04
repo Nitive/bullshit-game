@@ -1,4 +1,4 @@
-import { render } from 'renderer'
+import { render, createDOMSource } from 'renderer'
 import { createRouter } from 'router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { main } from '.'
@@ -19,6 +19,7 @@ const history = createBrowserHistory()
 const { router, runRouter } = createRouter(history)
 
 const sources = {
+  DOM: createDOMSource(),
   router,
 }
 

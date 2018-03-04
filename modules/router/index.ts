@@ -6,7 +6,7 @@ import { History, Location } from 'history'
 // /list
 // /mistake/:mistakeId
 
-type RouterAction
+export type RouterAction
   = { type: 'push', location: string }
   | { type: 'replace', location: string }
 

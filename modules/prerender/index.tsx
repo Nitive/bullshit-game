@@ -10,6 +10,7 @@ import mkdirp = require('mkdirp-promise')
 import * as fs from 'mz/fs'
 import { VNode } from 'snabbdom/vnode'
 import { getEnv } from 'utils/get-env'
+import { createDOMSource } from 'renderer/server'
 
 function getPossibleUrls(appData: IAppData): string[] {
   const mistakesUrls = appData.mistakesGroups
@@ -50,7 +51,10 @@ function renderMainTemplate(content: VNode, assets: Assets) {
 function renderPage(path: string, assets: Assets): Stream<string> {
   const history = createMemoryHistory({ initialEntries: [path] })
   const { router } = createRouter(history)
-  const app = main({ router })
+  const app = main({
+    router,
+    DOM: createDOMSource(),
+  })
   return app.DOM
     .take(1)
     .map(vdom => renderMainTemplate(vdom, assets))

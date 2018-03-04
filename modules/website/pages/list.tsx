@@ -19,6 +19,7 @@ export function MistakesListPage({ mistakesGroups }: { mistakesGroups: IMistakes
   return (
     <div>
       <h1>Ошибки в аргументации</h1>
+      <a href="/mistake/1">test</a>
       {mistakesGroups.map(group => <MistakesGroup group={group} />)}
     </div>
   )

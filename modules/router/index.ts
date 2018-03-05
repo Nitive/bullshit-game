@@ -1,10 +1,6 @@
 
 import xs, { Stream } from 'xstream'
 import { History, Location } from 'history'
-// import fromEvent
-
-// /list
-// /mistake/:mistakeId
 
 export type RouterAction
   = { type: 'push', location: string }

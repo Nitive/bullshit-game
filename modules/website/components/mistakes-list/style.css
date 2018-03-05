@@ -16,11 +16,11 @@
   text-decoration: none;
   display: block;
 
-  &:active {
-    color: hsl(212, 100%, 80%);
-  }
-
   &:visited {
     color: hsl(242, 100%, 80%);
+  }
+
+  &:active {
+    color: hsl(212, 100%, 80%);
   }
 }

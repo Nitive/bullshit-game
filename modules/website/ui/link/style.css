@@ -2,11 +2,11 @@
   color: hsl(212, 90%, 60%);
   text-decoration: none;
 
-  &:active {
-    color: hsl(212, 90%, 80%);
-  }
-
   &:visited {
     color: hsl(242, 90%, 60%);
+  }
+
+  &:active {
+    color: hsl(212, 90%, 80%);
   }
 }

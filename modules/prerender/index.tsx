@@ -1,4 +1,5 @@
 import * as Snabbdom from 'snabbdom-pragma'
+import { h } from 'snabbdom/h'
 import toHTML = require('snabbdom-to-html')
 import { data, IAppData } from 'data'
 import { createRouter } from 'router'
@@ -38,7 +39,7 @@ function renderMainTemplate(content: VNode, assets: Assets) {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        {h('meta', { attrs: { 'http-equiv': 'X-UA-Compatible', content: 'ie=edge' } })}
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic" rel="stylesheet" />
         <title>Логические ошибки</title>
       </head>

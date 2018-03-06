@@ -6,11 +6,12 @@ import { Box } from '../ui/box'
 import { Title } from '../ui/title'
 import { ExamplesList } from '../components/examples-list'
 import { Footer } from '../components/footer'
+import { Page } from '../ui/page'
 
 export function MistakePage(props: { mistake: IMistake, color: string }) {
   const { mistake } = props
   return (
-    <div>
+    <Page>
       <ToList />
       <Box top={25} bottom={15}>
         <ColorMark color={props.color} />
@@ -21,6 +22,6 @@ export function MistakePage(props: { mistake: IMistake, color: string }) {
       </Box>
       <ExamplesList examples={mistake.examples} />
       <Footer />
-    </div>
+    </Page>
   )
 }

@@ -26,9 +26,9 @@ export function main({ router, DOM }: AppSources): AppSinks {
     })
 
   const linksRedirects$ = DOM.selectEvents<MouseEvent>('body', 'click')
-    .filter(e => e.toElement.nodeName === 'A')
+    .filter(e => (e.target as HTMLAnchorElement).nodeName === 'A')
     .map(event => {
-      const href = (event.toElement as HTMLAnchorElement).getAttribute('href')
+      const href = (event.target as HTMLAnchorElement).getAttribute('href')
       if (href && isLocalLink(href)) {
         event.preventDefault()
         return router.push(href)

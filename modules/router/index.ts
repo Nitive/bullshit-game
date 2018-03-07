@@ -59,6 +59,9 @@ export function createRouter(history: History): { router: Router, runRouter: (ac
     action$
       .addListener({
         next: handleRouterAction(history),
+        error(err) {
+          throw new Error(err)
+        },
       })
   }
 

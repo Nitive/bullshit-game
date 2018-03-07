@@ -94,6 +94,11 @@ pages$
       })
 
       Promise.all(promises)
-        .catch(console.error)
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    error(err) {
+      throw new Error(err)
     },
   })

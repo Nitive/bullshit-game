@@ -35,5 +35,8 @@ export function render(vdom$: Stream<VNode | HTMLElement>, node: HTMLElement) {
       next([prev, next]: [VNode | HTMLElement, VNode]) {
         patch(prev, next)
       },
+      error(err) {
+        throw new Error(err)
+      },
     })
 }

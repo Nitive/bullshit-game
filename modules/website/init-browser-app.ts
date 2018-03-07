@@ -1,3 +1,4 @@
+import 'utils/polyfills'
 import { render, createDOMSource } from 'renderer'
 import { createRouter } from 'router'
 import createBrowserHistory from 'history/createBrowserHistory'

@@ -3,7 +3,8 @@ import { getEnv } from 'utils/get-env'
 
 export const root = getEnv('ROOT')
 export const scriptsFolder = getEnv('ASSETS_FOLDER')
-export const mode = getEnv('NODE_ENV')
+type Mode = 'development' | 'production'
+const mode = getEnv<Mode>('NODE_ENV', (mode): mode is Mode => ['development', 'production'].includes(mode))
 
 export const postcssLoader = { loader: 'postcss-loader', options: require('./postcss.config') }
 export const cssLoaderOptions = {
@@ -14,7 +15,7 @@ export const cssLoaderOptions = {
 }
 
 export const commonConfig = {
-  mode: getEnv('NODE_ENV'),
+  mode,
   module: {
     rules: [
       {
@@ -30,7 +31,7 @@ export const commonConfig = {
   plugins: [
     new DefinePlugin({
       'process.env.PUBLIC_PATH': JSON.stringify(getEnv('PUBLIC_PATH')),
-      'process.env.NODE_ENV': JSON.stringify(getEnv('NODE_ENV')),
+      'process.env.NODE_ENV': JSON.stringify(mode),
     }),
   ],
   resolve: {

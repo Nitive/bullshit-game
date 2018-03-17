@@ -16,6 +16,7 @@ const main: (sources: AppSources) => AppSinks = appMain
 
 export interface Assets {
   js: string,
+  css?: string,
 }
 
 function renderMainTemplate(content: VNode, assets: Assets) {
@@ -26,6 +27,7 @@ function renderMainTemplate(content: VNode, assets: Assets) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic" rel="stylesheet" />
+        {assets.css ? <link href={assets.css} rel="stylesheet" /> : undefined}
         <title>Логические ошибки</title>
       </head>
       <body>

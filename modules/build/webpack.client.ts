@@ -1,11 +1,14 @@
-import { Configuration } from 'webpack'
 import * as path from 'path'
 import { commonConfig, root, scriptsFolder, cssLoaderOptions, postcssLoader } from './webpack.common'
 import { getEnv } from 'utils/get-env'
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+import { HotModuleReplacementPlugin } from 'webpack'
 const StatsPlugin = require('stats-webpack-plugin')
 
-const config: Configuration = {
+const devPlugins =  [
+  new HotModuleReplacementPlugin(),
+]
+
+const config = {
   ...commonConfig,
   entry: {
     main: ['website/init-browser-app'],
@@ -31,10 +34,8 @@ const config: Configuration = {
   },
   plugins: [
     ...commonConfig.plugins,
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './template.ejs'),
-    }),
     new StatsPlugin('stats.json'),
+    ...commonConfig.mode === 'development' ? devPlugins : [],
   ],
 }
 

@@ -14,6 +14,7 @@ export const cssLoaderOptions = {
 }
 
 export const commonConfig = {
+  mode: getEnv('NODE_ENV'),
   module: {
     rules: [
       {

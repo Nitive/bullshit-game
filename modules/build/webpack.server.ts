@@ -1,8 +1,7 @@
-import { Configuration } from 'webpack'
 import * as path from 'path'
 import { commonConfig, cssLoaderOptions, postcssLoader, root, scriptsFolder } from './webpack.common'
 
-const config: Configuration = {
+const config = {
   ...commonConfig,
   target: 'node',
   entry: {

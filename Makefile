@@ -31,13 +31,16 @@ clean:
 	rm -rf $$BUILD_FOLDER
 
 build-client:
-	npx webpack --config ./modules/build/webpack.client.ts --mode=$$NODE_ENV
+	npx webpack --config ./modules/build/webpack.client.ts
 
 watch:
-	npx webpack --config ./modules/build/webpack.client.ts --mode=$$NODE_ENV --watch
+	npx webpack --config ./modules/build/webpack.client.ts --watch
 
 build-server:
-	npx webpack --config ./modules/build/webpack.server.ts --mode=$$NODE_ENV
+	npx webpack --config ./modules/build/webpack.server.ts
+
+dev-server:
+	node -r ts-node/register ./modules/build/dev-server
 
 prerender: build-client build-server
 	node -r ts-node/register ./modules/prerender

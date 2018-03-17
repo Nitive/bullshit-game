@@ -76,7 +76,7 @@ function renderPages(urls: string[], assets: Assets) {
 
 const buildFolder = path.join(getEnv('ROOT'), getEnv('BUILD_FOLDER'))
 const stats = require(path.join(getEnv('ROOT'), getEnv('STATS_PATH')))
-const jsPath = path.join(getEnv('ASSETS_PATH'), stats.assetsByChunkName.main)
+const jsPath = path.join(stats.publicPath, stats.assetsByChunkName.main)
 
 const assets = { js: jsPath }
 const urls = getPossibleUrls(data)

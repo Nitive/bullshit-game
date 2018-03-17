@@ -40,7 +40,7 @@ build-server:
 	npx webpack --config ./modules/build/webpack.server.ts --mode=$$NODE_ENV
 
 prerender: build-client build-server
-	npx ts-node ./modules/prerender
+	node -r ts-node/register ./modules/prerender
 
 lint:
 	npx tslint --project . --format stylish

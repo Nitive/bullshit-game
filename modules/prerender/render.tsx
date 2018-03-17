@@ -32,7 +32,7 @@ function renderMainTemplate(content: VNode, assets: Assets) {
         <div id="app">
           {content}
         </div>
-        <script src={assets.js}></script>
+        <script async="async" src={assets.js}></script>
       </body>
     </html>
   )

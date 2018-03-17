@@ -21,6 +21,10 @@ export const commonConfig = {
         test: /\.tsx?$/,
         use: 'ts-loader',
       },
+      {
+        test: /\.(eot|woff2|woff|ttf)/,
+        use: 'file-loader',
+      },
     ],
   },
   plugins: [

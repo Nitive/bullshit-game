@@ -16,7 +16,7 @@ endif
 
 
 ifndef PUBLIC_PATH
-	export PUBLIC_PATH = /public/
+	export PUBLIC_PATH = /
 endif
 
 ifndef NODE_ENV

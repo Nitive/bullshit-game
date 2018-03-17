@@ -2,5 +2,15 @@ body {
   margin: 0;
   background-color: #000;
   color: #fff;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Montserrat, Unicode, sans-serif;
+}
+
+@font-face {
+  font-family: Unicode;
+  font-style: normal;
+  font-weight: 400;
+  src: url(./fonts/Unicode/Unicode.eot) format("eot"),
+       url(./fonts/Unicode/Unicode.woff2) format("woff2"),
+       url(./fonts/Unicode/Unicode.woff) format("woff"),
+       url(./fonts/Unicode/Unicode.ttf) format("truetype")
 }

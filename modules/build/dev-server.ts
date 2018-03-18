@@ -16,6 +16,10 @@ const compiler = webpack(webpackConfig)
 app.use(devMiddleware(compiler, { publicPath: getEnv('ASSETS_PATH'), serverSideRender: true }))
 app.use(hotMiddleware(compiler))
 
+app.get('/favicon.ico', (_req, res) => {
+  res.status(404).send('Icon not specified')
+})
+
 app.get('/*', (req, res) => {
   const stats = res.locals.webpackStats.toJson()
 

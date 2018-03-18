@@ -1,13 +1,20 @@
 import * as path from 'path'
-import { Assets } from './render'
 
+export interface Assets {
+  js: string,
+  css?: string, // no css in development mode
+}
 
 export function getAssetsFromStats(stats: any): Assets {
   const webpackAssets: string[] = stats.entrypoints.main.assets
 
+  function withPublicPath(file: string) {
+    return path.join(stats.publicPath, file)
+  }
+
   function findFile(ext: string): string | undefined {
     const file = webpackAssets.find(asset => asset.endsWith(ext))
-    return file ? path.join(stats.publicPath, file) : undefined
+    return file ? withPublicPath(file) : undefined
   }
 
   return {

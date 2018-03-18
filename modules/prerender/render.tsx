@@ -9,15 +9,7 @@ import { VNode } from 'snabbdom/vnode'
 import { getEnv } from 'utils/get-env'
 import { createDOMSource } from 'renderer/server'
 import { AppSinks, AppSources } from 'website/types'
-
-const appCodePath = path.join(getEnv('ROOT'), getEnv('ASSETS_FOLDER'), 'server/server.js')
-const { main: appMain } = require(appCodePath)
-const main: (sources: AppSources) => AppSinks = appMain
-
-export interface Assets {
-  js: string,
-  css?: string,
-}
+import { Assets } from './assets-from-stats'
 
 function renderMainTemplate(content: VNode, assets: Assets) {
   return (
@@ -26,7 +18,6 @@ function renderMainTemplate(content: VNode, assets: Assets) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&amp;subset=cyrillic" rel="stylesheet" />
         {assets.css ? <link href={assets.css} rel="stylesheet" /> : undefined}
         <title>Логические ошибки</title>
       </head>
@@ -41,8 +32,12 @@ function renderMainTemplate(content: VNode, assets: Assets) {
 }
 
 
-export function renderPage(path: string, assets: Assets): Stream<string> {
-  const history = createMemoryHistory({ initialEntries: [path] })
+export function renderPage(pagePath: string, assets: Assets): Stream<string> {
+  const appCodePath = path.join(getEnv('ROOT'), getEnv('ASSETS_FOLDER'), 'server/server.js')
+  const { main: appMain } = require(appCodePath)
+  const main: (sources: AppSources) => AppSinks = appMain
+
+  const history = createMemoryHistory({ initialEntries: [pagePath] })
   const { router } = createRouter(history)
   const app = main({
     router,

@@ -4,13 +4,13 @@ import { data } from 'data'
 import { isTruly } from '../utils/is-truly'
 import { MistakePage } from './pages/mistake'
 import { AppSources, AppSinks } from './types'
-import { mistakeLink, isLocalLink } from './utils/routing'
+import { isLocalLink, isMistakeLink } from './utils/routing'
 require('./style.css')
 
 export function main({ router, DOM }: AppSources): AppSinks {
   const vdom$ = router.location$
     .map(location => {
-      if (location.pathname.startsWith(mistakeLink(''))) {
+      if (isMistakeLink(location.pathname)) {
         const mistakeId = location.pathname
           .replace(/.*mistake\//, '')
           .replace(/\//, '')

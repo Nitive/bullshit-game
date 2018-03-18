@@ -11,7 +11,11 @@ function createUrl(path: string) {
 }
 
 export function mistakeLink(mistakeId: string) {
-  return createUrl(`/mistake/${mistakeId}`)
+  return createUrl(`/mistake/${mistakeId}/`)
+}
+
+export function isMistakeLink(link: string) {
+  return link.startsWith(createUrl('/mistake/'))
 }
 
 export function listLink() {

@@ -2,21 +2,21 @@ ifndef BUILD_FOLDER
 	export BUILD_FOLDER = public
 endif
 
-ifndef ASSETS_PATH
-	export ASSETS_PATH = /dist/
-endif
-
 ifndef ASSETS_FOLDER
-	export ASSETS_FOLDER = dist
+	export ASSETS_FOLDER = $(BUILD_FOLDER)/dist
 endif
 
 ifndef STATS_PATH
-	export STATS_PATH = dist/stats.json
+	export STATS_PATH = $(ASSETS_FOLDER)/stats.json
 endif
 
 
 ifndef PUBLIC_PATH
 	export PUBLIC_PATH = /
+endif
+
+ifndef ASSETS_PATH
+	export ASSETS_PATH = $(PUBLIC_PATH)dist/
 endif
 
 ifndef NODE_ENV

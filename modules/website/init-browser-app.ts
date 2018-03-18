@@ -4,18 +4,6 @@ import { createRouter } from 'router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { main } from '.'
 
-function getNode() {
-  const appNode = document.getElementById('app')
-  if (appNode) {
-    return appNode
-  }
-
-  const node = document.createElement('div')
-  document.body.appendChild(node)
-
-  return node
-}
-
 const history = createBrowserHistory()
 const { router, runRouter } = createRouter(history)
 
@@ -26,5 +14,11 @@ const sources = {
 
 const app = main(sources)
 
-render(app.DOM, getNode())
+render(app.DOM, document.getElementById('app')!)
 runRouter(app.router)
+
+if (process.env.NODE_ENV === 'production') {
+  import('offline-plugin/runtime').then(offline => {
+    offline.install()
+  })
+}

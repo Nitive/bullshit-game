@@ -1,23 +1,12 @@
-import { data, IAppData } from 'data'
+import { data } from 'data'
 import xs from 'xstream'
 import * as path from 'path'
 import mkdirp = require('mkdirp-promise')
 import * as fs from 'mz/fs'
 import { getEnv } from 'utils/get-env'
-import { renderPage, Assets } from './render'
-import { getAssetsFromStats } from './assets-from-stats'
-
-function getPossibleUrls(appData: IAppData): string[] {
-  const mistakesUrls = appData.mistakesGroups
-    .map(group => group.mistakes)
-    .reduce((acc, mistakes) => [...acc, ...mistakes], [])
-    .map(mistake => `/mistake/${mistake.id}/`)
-
-  return [
-    '/',
-    ...mistakesUrls,
-  ]
-}
+import { renderPage } from './render'
+import { getAssetsFromStats, Assets } from './assets-from-stats'
+import { getPossibleUrls } from './get-possible-urls'
 
 function renderPages(urls: string[], assets: Assets) {
   return xs.combine(

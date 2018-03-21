@@ -31,7 +31,7 @@ app.get('/*', (req, res) => {
     })
 })
 
-app.listen(5000, (err?: Error) => {
+app.listen(process.env.PORT || 5000, (err?: Error) => {
   /* eslint-disable no-console */
   if (err) {
     console.error(err)

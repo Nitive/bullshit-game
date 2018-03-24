@@ -10,8 +10,8 @@ var __wpo = {
       "/bullshit-game/scripts/1997ef6cc8206fa9784e2612eaa232a3.ttf",
       "/bullshit-game/scripts/1997ef6cc8206fa9784e2612eaa232a3.woff",
       "/bullshit-game/scripts/1997ef6cc8206fa9784e2612eaa232a3.woff2",
-      "/bullshit-game/scripts/main/styles.3e1509abf2a740174fde.css",
-      "/bullshit-game/scripts/main/app.3e1509abf2a740174fde.js",
+      "/bullshit-game/scripts/main/styles.e2c17ccda06c40337b07.css",
+      "/bullshit-game/scripts/main/app.e2c17ccda06c40337b07.js",
       "/bullshit-game/",
       "/bullshit-game/mistake/derision/",
       "/bullshit-game/mistake/x-2/",
@@ -68,12 +68,12 @@ var __wpo = {
     "995a6869e3748efd291f85d034091ede7fbf5640": "/bullshit-game/scripts/a23e04dafa9684cc9b5c55c283f7836d.woff",
     "32648344be2d4e511e117bde759cc23abdd66c69": "/bullshit-game/scripts/311dee1c9b21081114249753fb6dbc6c.woff2",
     "ef98dd20549b243a76c6acff5a6e824a7b03b9db": "/bullshit-game/scripts/1997ef6cc8206fa9784e2612eaa232a3.woff2",
-    "8e4a813b07dfcbfff4cca53badc1086697df397f": "/bullshit-game/scripts/main/styles.3e1509abf2a740174fde.css",
-    "4496d65b158be10632401b63d8248a4ff7b1e719": "/bullshit-game/scripts/main/app.3e1509abf2a740174fde.js"
+    "8e4a813b07dfcbfff4cca53badc1086697df397f": "/bullshit-game/scripts/main/styles.e2c17ccda06c40337b07.css",
+    "4496d65b158be10632401b63d8248a4ff7b1e719": "/bullshit-game/scripts/main/app.e2c17ccda06c40337b07.js"
   },
   "strategy": "changed",
   "responseStrategy": "cache-first",
-  "version": "2018-3-18 20:34:57",
+  "version": "2018-3-24 08:07:35",
   "name": "webpack-offline",
   "pluginVersion": "4.9.0",
   "relativePaths": false

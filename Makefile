@@ -42,7 +42,7 @@ build-server:
 dev-server:
 	node -r ts-node/register ./modules/build/dev-server
 
-prerender: build-client build-server
+prerender: clean build-client build-server
 	node -r ts-node/register ./modules/prerender
 
 lint:

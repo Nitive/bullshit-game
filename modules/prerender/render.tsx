@@ -38,11 +38,13 @@ export function renderPage(pagePath: string, assets: Assets): Stream<string> {
   const main: (sources: AppSources) => AppSinks = appMain
 
   const history = createMemoryHistory({ initialEntries: [pagePath] })
-  const { router } = createRouter(history)
+  const { router, runRouter } = createRouter(history)
   const app = main({
     router,
     DOM: createDOMSource(),
   })
+  runRouter(app.router)
+
   return app.DOM
     .take(1)
     .map(vdom => renderMainTemplate(vdom, assets))

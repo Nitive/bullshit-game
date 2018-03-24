@@ -16,15 +16,17 @@ function renderPages(urls: string[], assets: Assets) {
 
 const buildFolder = path.join(getEnv('ROOT'), getEnv('BUILD_FOLDER'))
 const stats = require(path.join(getEnv('ROOT'), getEnv('STATS_PATH')))
+const publicPath = getEnv('PUBLIC_PATH')
 
-const urls = getPossibleUrls(data)
+const urls = getPossibleUrls(data).map(url => path.join(publicPath, url))
 const pages$ = renderPages(urls, getAssetsFromStats(stats))
 
 pages$
   .addListener({
     next(pages) {
       const promises = pages.map(async page => {
-        const folderPath = path.join(buildFolder, page.path)
+        const pathWithoutPublicPath = page.path.slice(publicPath.length - 1)
+        const folderPath = path.join(buildFolder, pathWithoutPublicPath)
         const filePath = path.join(folderPath, 'index.html')
 
         await mkdirp(folderPath)

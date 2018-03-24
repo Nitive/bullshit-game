@@ -5,7 +5,7 @@ import { DOMSource } from '.'
 export function createDOMSource(): DOMSource {
   return {
     selectEvents<Event>(): Stream<Event> {
-      return xs.never()
+      return xs.empty()
     },
   }
 }

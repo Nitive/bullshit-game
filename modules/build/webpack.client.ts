@@ -37,6 +37,7 @@ const commonPlugins = [
     name: 'Игра Bullshit',
     short_name: 'Bullshit',
     background_color: '#000',
+    theme_color: '#f8ab00',
     display: 'standalone',
     orientation: 'any',
     start_url: getEnv('PUBLIC_PATH'),

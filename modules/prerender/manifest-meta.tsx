@@ -16,6 +16,7 @@ export interface Manifest {
   display: string,
   start_url: string,
   background_color: string,
+  theme_color: string,
 }
 
 export function ManifestMeta({ publicPath, manifest }: { publicPath: string, manifest: Manifest }) {
@@ -32,7 +33,7 @@ export function ManifestMeta({ publicPath, manifest }: { publicPath: string, man
     <meta name="apple-mobile-web-app-capable" content="yes" />,
     <meta name="application-name" content={manifest.short_name} />,
     <meta name="apple-mobile-web-app-title" content={manifest.short_name} />,
-    <meta name="theme-color" content={manifest.background_color} />,
+    <meta name="theme-color" content={manifest.theme_color} />,
     <meta name="msapplication-navbutton-color" content={manifest.background_color} />,
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />,
     <meta name="msapplication-starturl" content={manifest.start_url} />,

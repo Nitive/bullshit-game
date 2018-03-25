@@ -1,0 +1,41 @@
+{
+  "icons": [
+    {
+      "src": "/bullshit-game/scripts/icon_512x512.085025532b5e87145a7b302ed517b7c3.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/bullshit-game/scripts/icon_384x384.d04435aded25dbebd381e0eaf5b5fb5a.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/bullshit-game/scripts/icon_256x256.99b599a039d18b3262f0903960a2ef74.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/bullshit-game/scripts/icon_192x192.c7c03379eda24e890c611a1800735ec4.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/bullshit-game/scripts/icon_128x128.a897db303a92f848ca5264740f20dca6.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/bullshit-game/scripts/icon_96x96.83209a1f4cf38984dd634fb5ba9b946e.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "Игра Bullshit",
+  "short_name": "Bullshit",
+  "orientation": "any",
+  "display": "standalone",
+  "start_url": "/bullshit-game/",
+  "background_color": "#000",
+  "scope": "/bullshit-game/"
+}

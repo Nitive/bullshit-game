@@ -37,5 +37,6 @@
   "display": "standalone",
   "start_url": "/bullshit-game/",
   "background_color": "#000",
+  "theme_color": "#f8ab00",
   "scope": "/bullshit-game/"
 }

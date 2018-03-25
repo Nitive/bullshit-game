@@ -1,6 +1,5 @@
-import * as path from 'path'
-
 export interface Assets {
+  publicPath: string,
   js: string,
   css?: string, // no css in development mode
 }
@@ -8,17 +7,16 @@ export interface Assets {
 export function getAssetsFromStats(stats: any): Assets {
   const webpackAssets: string[] = stats.entrypoints.main.assets
 
-  function withPublicPath(file: string) {
-    return path.join(stats.publicPath, file)
+  const js = webpackAssets.find(asset => asset.endsWith('.js'))
+  const css = webpackAssets.find(asset => asset.endsWith('.css'))
+
+  if (!js) {
+    throw new Error(`Could not find js file in assets: ${JSON.stringify(webpackAssets, null, 2)}`)
   }
 
-  function findFile(ext: string): string | undefined {
-    const file = webpackAssets.find(asset => asset.endsWith(ext))
-    return file ? withPublicPath(file) : undefined
+  if (!css && process.env.NODE_ENV === 'production') {
+    throw new Error(`Could not find css file in assets: ${JSON.stringify(webpackAssets, null, 2)}`)
   }
 
-  return {
-    js: findFile('.js')!,
-    css: findFile('.css'),
-  }
+  return { publicPath: stats.publicPath, js, css }
 }

@@ -2,19 +2,20 @@ import * as path from 'path'
 import { commonConfig, root, scriptsFolder, cssLoaderOptions, postcssLoader } from './webpack.common'
 import { getEnv } from 'utils/get-env'
 import { HotModuleReplacementPlugin } from 'webpack'
-import { getPossibleUrls } from '../prerender/get-possible-urls'
+import { getPossibleUrls } from 'prerender/get-possible-urls'
 import { data } from 'data'
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const StatsPlugin = require('stats-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
-
-const devPlugins =  [
-  new HotModuleReplacementPlugin(),
-]
+const WebpackPwaManifest = require('webpack-pwa-manifest')
 
 function getExternals(publicPath: string) {
   return getPossibleUrls(data).map(url => path.join(publicPath, url))
 }
+
+const devPlugins =  [
+  new HotModuleReplacementPlugin(),
+]
 
 const prodPlugins = [
   new MiniCssExtractPlugin({
@@ -27,6 +28,26 @@ const prodPlugins = [
       minify: false,
     },
     externals: getExternals(getEnv('PUBLIC_PATH')),
+  }),
+]
+
+const commonPlugins = [
+  new StatsPlugin('stats.json'),
+  new WebpackPwaManifest({
+    name: 'Игра Bullshit',
+    short_name: 'Bullshit',
+    background_color: '#000',
+    display: 'standalone',
+    orientation: 'any',
+    start_url: getEnv('PUBLIC_PATH'),
+    scope: getEnv('PUBLIC_PATH'),
+    inject: false,
+    icons: [
+      {
+        src: path.resolve(__dirname, '../website/resources/bullshit-game-icon.png'),
+        sizes: [96, 128, 192, 256, 384, 512],
+      },
+    ],
   }),
 ]
 
@@ -56,8 +77,8 @@ const config = {
   },
   plugins: [
     ...commonConfig.plugins,
+    ...commonPlugins,
     ...commonConfig.mode === 'production' ? prodPlugins : devPlugins,
-    new StatsPlugin('stats.json'),
   ],
 }
 

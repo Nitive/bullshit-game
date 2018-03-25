@@ -26,9 +26,9 @@ endif
 export ROOT = $(shell pwd)
 
 clean:
-	rm -rf $$ASSETS_FOLDER
-	rm -rf $$STATS_PATH
-	rm -rf $$BUILD_FOLDER
+	@ rm -rf $$ASSETS_FOLDER
+	@ rm -rf $$STATS_PATH
+	@ rm -rf $$BUILD_FOLDER
 
 build-client:
 	npx webpack --config ./modules/build/webpack.client.ts
@@ -39,7 +39,7 @@ watch:
 build-server:
 	npx webpack --config ./modules/build/webpack.server.ts
 
-dev-server:
+dev-server: clean build-server
 	node -r ts-node/register ./modules/build/dev-server
 
 prerender: clean build-client build-server

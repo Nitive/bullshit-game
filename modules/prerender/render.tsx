@@ -19,6 +19,7 @@ function renderMainTemplate(content: VNode, assets: Assets, manifest: Manifest) 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         {assets.css && <link href={path.join(assets.publicPath, assets.css)} rel="stylesheet" />}
+        <script defer src={path.join(assets.publicPath, assets.js)}></script>
         <ManifestMeta publicPath={assets.publicPath} manifest={manifest} />
         <title>Логические ошибки</title>
       </head>
@@ -26,7 +27,6 @@ function renderMainTemplate(content: VNode, assets: Assets, manifest: Manifest) 
         <div id="app">
           {content}
         </div>
-        <script async="async" src={path.join(assets.publicPath, assets.js)}></script>
       </body>
     </html>
   )

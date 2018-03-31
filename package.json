@@ -4,7 +4,23 @@
     "modules/*"
   ],
   "dependencies": {
+    "@types/jest": "^22.2.2",
+    "jest": "^22.4.3",
+    "ts-jest": "^22.4.2",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.7.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.test.+(ts|tsx|js)"
+    ]
   }
 }

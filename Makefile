@@ -49,3 +49,12 @@ lint:
 	npx tslint --project . --format stylish
 
 production: prerender
+
+build-production-like:
+	@ $(eval export NODE_ENV=production)
+	@ $(eval export PUBLIC_PATH=/public/)
+	@ make prerender
+
+static-server:
+	open http://localhost:3001/public/
+	python3 -m http.server 3001

@@ -41,7 +41,7 @@ export function isEffect(eff: EffectsDescriptor): eff is Effect {
 export function selectEffectByType<Eff extends Effect>(
   effectType: string,
   eff: EffectsDescriptor,
-  fold: (acc: Eff, next: Eff) => Eff,
+  reduce: (acc: Eff, next: Eff) => Eff,
   empty: Eff,
 ): Eff {
   if (typeof eff === 'string') {
@@ -58,7 +58,7 @@ export function selectEffectByType<Eff extends Effect>(
 
   return children
       .reduce<Eff>(
-        (acc: Eff, vn: EffectsDescriptor) => fold(acc, selectEffectByType(effectType, vn, fold, empty)),
+        (acc: Eff, vn: EffectsDescriptor) => reduce(acc, selectEffectByType(effectType, vn, reduce, empty)),
         empty,
       )
 }

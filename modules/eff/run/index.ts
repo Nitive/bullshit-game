@@ -7,7 +7,8 @@ export interface Effect {
   effectType: string,
 }
 
-export type EffectsDescriptor = VNode | string | Effect
+export type _EffectsDescriptor = VNode | string | Effect
+export type EffectsDescriptor = _EffectsDescriptor | _EffectsDescriptor[]
 
 export interface Driver<Sink, Source> {
   run(sink: Sink): Source,
@@ -53,7 +54,7 @@ export function selectEffectByType<Eff extends Effect>(
       : empty
   }
 
-  const children: Array<EffectsDescriptor> = eff.children || []
+  const children: Array<EffectsDescriptor> = Array.isArray(eff) ? eff : eff.children || []
 
   return children
       .reduce<Eff>(

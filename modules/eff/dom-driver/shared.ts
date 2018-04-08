@@ -8,6 +8,10 @@ function selectDOMEffHelper(effects: EffectsDescriptor): VNode[] {
     return []
   }
 
+  if (Array.isArray(effects)) {
+    return flatten(effects.map(selectDOMEffHelper))
+  }
+
   const vnode = effects
 
   return [{

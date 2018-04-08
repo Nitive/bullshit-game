@@ -79,4 +79,47 @@ describe('store', () => {
 
     expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
   })
+
+  it('should merge effects', done => {
+    type Action = 'inc' | 'dec'
+
+    type State = number
+
+    function reducer(state = 0, action: Action): State {
+      return state + { inc: +1, dec: -1 }[action]
+    }
+
+    interface Sources {
+      DOM: DOMSource,
+      store: StoreSource<State>
+    }
+
+    interface Sinks {
+      DOM: Stream<VNode>
+      store: Stream<Action>
+    }
+
+    function app(sources: Sources): EffectsDescriptor {
+      const expected = fromDiagram('0-1-2-1|', { values: { 0: 0, 1: 1, 2: 2 } })
+      areStreamsEqual(sources.store, expected).then(done).catch(done)
+
+      return (
+        h('div', [
+          h('span', 'test'),
+          storeEff(xs.of('inc')),
+          storeEff(xs.of('inc')),
+          storeEff(xs.of('dec')),
+        ])
+      )
+    }
+
+    document.body.innerHTML = '<div id="app"></div>'
+
+    run<Sources, Sinks>(app, {
+      DOM: makeDomDriver('#app'),
+      store: makeStoreDriver<Action, State>(reducer, 0),
+    })
+
+    expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
+  })
 })

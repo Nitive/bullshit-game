@@ -2,7 +2,7 @@ import h from 'snabbdom/h'
 import { EffectsDescriptor, run } from '../run'
 import xs, { Stream } from 'xstream'
 import { makeStoreDriver, StoreSource, storeEff } from '../store-driver'
-import { areStreamsEqual } from './test-utils'
+import { areStreamsEqual, makeMultistepDone } from './test-utils'
 import fromDiagram from 'xstream/extra/fromDiagram'
 import { makeDomDriver, DOMSource } from '../dom-driver/client'
 import { VNode } from 'snabbdom/vnode'
@@ -40,6 +40,7 @@ describe('store', () => {
   })
 
   it('store eff with vdom should works', done => {
+    const step = makeMultistepDone(2, done)
     type Action = 'inc' | 'dec'
 
     type State = number
@@ -60,7 +61,7 @@ describe('store', () => {
 
     function app(sources: Sources): EffectsDescriptor {
       const expected = fromDiagram('0-1-2-1|', { values: { 0: 0, 1: 1, 2: 2 } })
-      areStreamsEqual(sources.store, expected).then(done).catch(done)
+      areStreamsEqual(sources.store, expected).then(step).catch(step)
 
       return (
         h('div', [
@@ -77,10 +78,14 @@ describe('store', () => {
       store: makeStoreDriver<Action, State>(reducer, 0),
     })
 
-    expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
+    setTimeout(() => {
+      expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
+      step()
+    })
   })
 
   it('should merge effects', done => {
+    const step = makeMultistepDone(2, done)
     type Action = 'inc' | 'dec'
 
     type State = number
@@ -101,7 +106,7 @@ describe('store', () => {
 
     function app(sources: Sources): EffectsDescriptor {
       const expected = fromDiagram('0-1-2-1|', { values: { 0: 0, 1: 1, 2: 2 } })
-      areStreamsEqual(sources.store, expected).then(done).catch(done)
+      areStreamsEqual(sources.store, expected).then(step).catch(step)
 
       return (
         h('div', [
@@ -120,6 +125,9 @@ describe('store', () => {
       store: makeStoreDriver<Action, State>(reducer, 0),
     })
 
-    expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
+    setTimeout(() => {
+      expect(document.body.innerHTML).toBe('<div><span>test</span></div>')
+      step()
+    })
   })
 })

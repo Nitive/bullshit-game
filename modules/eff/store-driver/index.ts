@@ -3,22 +3,18 @@ import { Driver, Effect, selectEffectByType, EffectsDescriptor } from '../run'
 
 interface StoreEffect<Action> extends Effect {
   effectType: 'store',
-  action$: Stream<Action>
+  sink$: Stream<Action>
 }
 
 export function storeEff<Action>(action$: Stream<Action>): StoreEffect<Action> {
   return {
     effectType: 'store',
-    action$,
+    sink$: action$,
   }
 }
 
 export function selectStoreEff<Action>(vnode: EffectsDescriptor): Stream<Action> {
-  const merge = (acc: StoreEffect<Action>, x: StoreEffect<Action>): StoreEffect<Action> => {
-    return storeEff(xs.merge(acc.action$, x.action$))
-  }
-
-  return selectEffectByType('store', vnode, merge, storeEff(xs.empty())).action$
+  return selectEffectByType<Action>('store', vnode, xs.merge)
 }
 
 export type StoreSource<State> = Stream<State>
@@ -32,7 +28,7 @@ export function makeStoreDriver<Action, State>(
       return action$.fold(reducer, initialState)
     },
     select(effects): Stream<Action> {
-      return selectStoreEff(effects)
+      return selectStoreEff<Action>(effects)
     },
   }
 }

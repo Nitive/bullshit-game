@@ -5,10 +5,11 @@ import { keys } from '../utils/keys'
 
 export interface Effect {
   effectType: string,
+  sink$: Stream<any>
 }
 
 export type _EffectsDescriptor = VNode | string | Effect
-export type EffectsDescriptor = _EffectsDescriptor | _EffectsDescriptor[]
+export type EffectsDescriptor = _EffectsDescriptor | _EffectsDescriptor[] | Stream<_EffectsDescriptor>
 
 export interface Driver<Sink, Source> {
   run(sink: Sink): Source,
@@ -20,6 +21,7 @@ export function run<Sources, Sinks extends { [K in keyof Sources]: Stream<any> }
   drivers: { [K in keyof Sources]: Driver<Sinks[K], Sources[K]> },
 ) {
   type Drivers = typeof drivers
+
   const fakeSinks: Sinks = mapObject<Drivers, Sinks>(drivers, () => xs.never())
   const sources: Sources = mapObject<Drivers, Sources>(drivers, (driver, key) => {
     return driver.run(fakeSinks[key])
@@ -38,27 +40,38 @@ export function isEffect(eff: EffectsDescriptor): eff is Effect {
   return !!(eff as Effect).effectType
 }
 
-export function selectEffectByType<Eff extends Effect>(
+export function selectEffectByType<Sink>(
   effectType: string,
   eff: EffectsDescriptor,
-  reduce: (acc: Eff, next: Eff) => Eff,
-  empty: Eff,
-): Eff {
-  if (typeof eff === 'string') {
-    return empty
-  }
-
+  reduceSinks: (acc: Stream<Sink>, next: Stream<Sink>) => Stream<Sink>,
+): Stream<Sink> {
   if (isEffect(eff)) {
-    return eff.effectType === effectType
-      ? eff as Eff
-      : empty
+    return eff.effectType === effectType ? eff.sink$ : xs.empty()
   }
 
-  const children: Array<EffectsDescriptor> = Array.isArray(eff) ? eff : eff.children || []
+  if (typeof eff === 'string') {
+    return xs.empty()
+  }
 
-  return children
-      .reduce<Eff>(
-        (acc: Eff, vn: EffectsDescriptor) => reduce(acc, selectEffectByType(effectType, vn, reduce, empty)),
-        empty,
-      )
+  if (eff instanceof Stream) {
+    return eff.map(e => selectEffectByType(effectType, e, reduceSinks)).flatten()
+  }
+
+  if (Array.isArray(eff)) {
+    return eff
+      .map(e => selectEffectByType(effectType, e, reduceSinks))
+      .reduce((acc, x) => reduceSinks(acc, x), xs.empty())
+  }
+
+  const vnode = eff
+
+  if (vnode.children) {
+    const children$: Stream<Sink> = vnode.children
+      .map(e => selectEffectByType(effectType, e, reduceSinks))
+      .reduce((acc, x) => reduceSinks(acc, x), xs.empty())
+
+    return children$
+  }
+
+  return xs.empty()
 }

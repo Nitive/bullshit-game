@@ -27,3 +27,21 @@ export function areStreamsEqual<T>(a: Stream<T>, b: Stream<T>): Promise<void> {
       expect(aValues).toEqual(bValues)
     })
 }
+
+export function makeMultistepDone(num: number, done: jest.DoneCallback): jest.DoneCallback {
+  let left = num
+  const step: any = (err?: any) => {
+    if (err)  {
+      done(err)
+      return
+    }
+    left -= 1
+    if (left === 0) {
+      done()
+    }
+  }
+
+  step.fail = done.fail
+
+  return step
+}

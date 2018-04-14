@@ -1,15 +1,23 @@
-import { isEffect, EffectsDescriptor } from '../run'
 import { VNode } from 'snabbdom/vnode'
-import { flattenDeep } from '../utils/flatten'
 import xs, { Stream } from 'xstream'
+import { EffectsDescriptor, isEffect } from '../run'
 
-function selectDOMStream(effects: EffectsDescriptor): Stream<VNode | VNode[] | string | undefined> {
+function selectDOMStream(effects: EffectsDescriptor): Stream<VNode | string | Array<VNode | string> | undefined> {
   if (effects instanceof Stream) {
     return effects.map(selectDOMStream).flatten()
   }
 
   if (Array.isArray(effects)) {
-    return xs.combine(...effects.map(selectDOMStream))
+    return xs
+      .combine(...effects.map(selectDOMStream))
+      .map((children: Array<VNode | VNode[] | string | string[] | undefined>) => {
+        return children
+          .reduce((acc, child) => {
+            return child !== undefined
+              ? acc.concat(child)
+              : acc
+          }, [] as Array<VNode | string>)
+      })
   }
 
   if (typeof effects === 'string') {
@@ -27,13 +35,10 @@ function selectDOMStream(effects: EffectsDescriptor): Stream<VNode | VNode[] | s
   const vnode = effects
 
   if (vnode.children) {
-    const children$ = xs.combine(...vnode.children.map(selectDOMStream))
+    const children$ = selectDOMStream(vnode.children) as Stream<Array<VNode | string>>
 
     return children$
-      .map(children => {
-        return flattenDeep<VNode>(children)
-      })
-      .map(children => {
+      .map((children): VNode => {
         return {
           ...vnode,
           children,

@@ -10,6 +10,7 @@
     "object-shorthand-properties-first": [false],
     "prefer-array-literal": [false],
     "strict-boolean-expressions": false,
+    "align": false,
     "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
   }
 }

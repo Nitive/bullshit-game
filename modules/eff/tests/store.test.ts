@@ -1,11 +1,11 @@
 import h from 'snabbdom/h'
-import { EffectsDescriptor, run } from '../run'
-import xs, { Stream } from 'xstream'
-import { makeStoreDriver, StoreSource, storeEff } from '../store-driver'
-import { areStreamsEqual, makeMultistepDone } from './test-utils'
-import fromDiagram from 'xstream/extra/fromDiagram'
-import { makeDomDriver, DOMSource } from '../dom-driver/client'
 import { VNode } from 'snabbdom/vnode'
+import xs, { Stream } from 'xstream'
+import fromDiagram from 'xstream/extra/fromDiagram'
+import { EffectsDescriptor, run } from '../core/run'
+import { DOMSource, makeDomDriver } from '../dom-driver/client'
+import { StoreSource, makeStoreDriver, storeEff } from '../store-driver'
+import { areStreamsEqual, makeMultistepDone } from './test-utils'
 
 describe('store', () => {
   it('store eff should works', done => {

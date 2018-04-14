@@ -1,6 +1,6 @@
 import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
-import { EffectsDescriptor, isEffect } from '../run'
+import { EffectsDescriptor, isEffect } from '../core/run'
 
 function selectDOMStream(effects: EffectsDescriptor): Stream<VNode | string | Array<VNode | string> | undefined> {
   if (effects instanceof Stream) {

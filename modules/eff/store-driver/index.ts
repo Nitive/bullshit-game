@@ -1,5 +1,6 @@
 import xs, { Stream } from 'xstream'
-import { Driver, Effect, selectEffectByType, EffectsDescriptor } from '../run'
+import { Driver, Effect, EffectsDescriptor } from '../core/run'
+import { selectEffectByType } from '../core/select'
 
 interface StoreEffect<Action> extends Effect {
   effectType: 'store',

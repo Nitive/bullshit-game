@@ -130,4 +130,37 @@ describe('store', () => {
       step()
     })
   })
+
+  it('streams transposition should work', done => {
+    type Action = 'inc' | 'dec'
+
+    type State = number
+
+    function reducer(state = 0, action: Action): State {
+      return state + { inc: +1, dec: -1 }[action]
+    }
+
+    interface Sources {
+      store: StoreSource<State>
+    }
+
+    interface Sinks {
+      store: Stream<Action>
+    }
+
+    function app(sources: Sources): EffectsDescriptor {
+      const expected = fromDiagram('0-1-2-1|', { values: { 0: 0, 1: 1, 2: 2 } })
+      areStreamsEqual(sources.store, expected).then(done).catch(done)
+
+      return [
+        storeEff(xs.from(['inc'])),
+        xs.of(storeEff(xs.from(['inc', 'dec']))),
+      ]
+    }
+
+    run<Sources, Sinks>(app, {
+      store: makeStoreDriver<Action, State>(reducer, 0),
+    })
+  })
+
 })

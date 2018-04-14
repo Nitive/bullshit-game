@@ -9,7 +9,10 @@ export interface Effect {
 }
 
 export type _EffectsDescriptor = VNode | string | Effect
-export type EffectsDescriptor = _EffectsDescriptor | _EffectsDescriptor[] | Stream<_EffectsDescriptor>
+export type EffectsDescriptor
+  = _EffectsDescriptor
+  | Stream<_EffectsDescriptor>
+  | Array<_EffectsDescriptor | Stream<_EffectsDescriptor>>
 
 export interface Driver<Sink, Source> {
   run(sink: Sink): Source,

@@ -1,7 +1,7 @@
-import * as Snabbdom from 'snabbdom-pragma'
+import { h } from '@eff/dom/h'
 import { listLink } from '../../utils/routing'
 const styles = require('./style.css')
 
 export function ToList() {
-  return <a className={styles.link} href={listLink()}>￩ К списку ошибок</a>
+  return h('a', { props: { className: styles.link, href: listLink() } }, '￩ К списку ошибок')
 }

@@ -1,6 +1,6 @@
-import * as Snabbdom from 'snabbdom-pragma'
+import { h } from '@eff/dom/h'
 const styles = require('./style.css')
 
 export function ColorMark(props: { color: string }) {
-  return <div className={styles.container} style={{ backgroundColor: props.color }} />
+  return h('div', { props: { className: styles.container }, style: { backgroundColor: props.color } })
 }

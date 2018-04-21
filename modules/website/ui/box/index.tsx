@@ -1,3 +1,4 @@
+import h from '@eff/dom/h'
 import * as Snabbdom from 'snabbdom-pragma'
 
 interface BoxProps {
@@ -34,5 +35,5 @@ export function Box(props: BoxProps, children?: Snabbdom.Children) {
   }
   // tslint:enable:strict-boolean-expressions
 
-  return <div style={style} className={props.containerClass}>{children}</div>
+  return h('div', { style, props: { className: props.containerClass } }, children as any)
 }

@@ -1,4 +1,4 @@
-import * as Snabbdom from 'snabbdom-pragma'
+// import * as Snabbdom from 'snabbdom-pragma'
 import toHTML = require('snabbdom-to-html')
 import { createRouter } from 'router'
 import createMemoryHistory from 'history/createMemoryHistory'
@@ -10,25 +10,24 @@ import { createDOMSource } from 'renderer/server'
 import { AppSinks, AppSources } from 'website/types'
 import { Assets } from './assets-from-stats'
 import { ManifestMeta, Manifest } from './manifest-meta'
+import h from '@eff/dom/h'
 
 function renderMainTemplate(content: VNode, assets: Assets, manifest: Manifest) {
   return (
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-        {assets.css && <link href={path.join(assets.publicPath, assets.css)} rel="stylesheet" />}
-        <script defer src={path.join(assets.publicPath, assets.js)}></script>
-        <ManifestMeta publicPath={assets.publicPath} manifest={manifest} />
-        <title>Логические ошибки</title>
-      </head>
-      <body>
-        <div id="app">
-          {content}
-        </div>
-      </body>
-    </html>
+    h('html', { props: { lang: 'en' } }, [
+      h('head', [
+        h('meta', { props: { charset: 'UTF-8' } }),
+        h('meta', { props: { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' } }),
+        h('meta', { props: { httpEquiv: 'X-UA-Compatible', content: 'ie=edge' } }),
+        assets.css && h('link', { props: { href: path.join(assets.publicPath, assets.css), rel: 'stylesheet' } }),
+        h('script', { props: { defer: true, src: path.join(assets.publicPath, assets.js) } }),
+        ManifestMeta({ publicPath: assets.publicPath, manifest }),
+        h('title', 'Логические ошибки'),
+      ]),
+      h('body', [
+        h('div', { props: { id: 'app' } }, content),
+      ]),
+    ])
   )
 }
 

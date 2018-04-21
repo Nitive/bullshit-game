@@ -1,22 +1,19 @@
-import * as Snabbdom from 'snabbdom-pragma'
+import h from '@eff/dom/h'
 import { IMistakesGroup } from 'data'
-import { Title } from '../ui/title'
-import { Page } from '../ui/page'
 import { Footer } from '../components/footer'
 import { MistakesGroupsList } from '../components/mistakes-list'
 import { Box } from '../ui/box'
-
+import { Page } from '../ui/page'
+import { Title } from '../ui/title'
 
 export function MistakesListPage(props: { mistakesGroups: IMistakesGroup[] }) {
   return (
-    <Page>
-      <main>
-        <Title>Ошибки в аргументации</Title>
-        <Box top={30}>
-          <MistakesGroupsList mistakesGroups={props.mistakesGroups} />
-        </Box>
-      </main>
-      <Footer />
-    </Page>
+    Page({}, [
+      h('main', [
+        Title({}, 'Ошибки в аргументации'),
+        Box({ top: 30 }, MistakesGroupsList({ mistakesGroups: props.mistakesGroups })),
+      ]),
+      Footer(),
+    ])
   )
 }

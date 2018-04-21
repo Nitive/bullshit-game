@@ -2,9 +2,9 @@ import h from 'snabbdom/h'
 import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
 import fromDiagram from 'xstream/extra/fromDiagram'
-import { EffectsDescriptor, run } from '../core/run'
-import { DOMSource, makeDomDriver } from '../dom-driver/client'
-import { StoreSource, makeStoreDriver, storeEff } from '../store-driver'
+import { EffectsDescriptor, run } from '@eff/core/run'
+import { DOMSource, makeDomDriver } from '@eff/dom/client'
+import { StoreSource, makeStoreDriver, storeEff } from '@eff/store'
 import { areStreamsEqual, makeMultistepDone } from './test-utils'
 
 describe('store', () => {

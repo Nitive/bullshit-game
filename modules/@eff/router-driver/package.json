@@ -1,7 +1,6 @@
 {
-  "name": "router",
+  "name": "@eff/router",
   "version": "0.1.0",
-  "main": "index.ts",
   "dependencies": {
     "@types/history": "^4.6.2",
     "history": "^4.7.2",

@@ -1,6 +1,6 @@
 import xs, { Stream } from 'xstream'
-import { Driver, Effect, EffectsDescriptor } from '../core/run'
-import { selectEffectByType } from '../core/select'
+import { Driver, Effect, EffectsDescriptor } from '@eff/core/run'
+import { selectEffectByType } from '@eff/core/select'
 import { History, Location } from 'history'
 
 export type RouterAction

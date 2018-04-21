@@ -1,9 +1,8 @@
-import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
 import fromDiagram from 'xstream/extra/fromDiagram'
-import { EffectsDescriptor, run } from '../core/run'
-import { RouterSource, RouterAction, routerEff, makeRouterDriver } from '../router-driver'
-import { areStreamsEqual, makeMultistepDone } from './test-utils'
+import { EffectsDescriptor, run } from '@eff/core/run'
+import { RouterSource, RouterAction, routerEff, makeRouterDriver } from '@eff/router'
+import { areStreamsEqual } from './test-utils'
 import { createMemoryHistory } from 'history'
 
 describe('router', () => {

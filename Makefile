@@ -58,3 +58,8 @@ build-production-like:
 static-server:
 	open http://localhost:3001/public/
 	python3 -m http.server 3001
+
+test:
+	npx tsc -p . --noEmit
+	npx tslint -p . --format stylish
+	npx jest

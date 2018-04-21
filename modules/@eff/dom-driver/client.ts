@@ -1,5 +1,5 @@
 import { init } from 'snabbdom'
-import { Driver } from '../core/run'
+import { Driver } from '@eff/core/run'
 import xs, { Stream } from 'xstream'
 import { VNode } from 'snabbdom/vnode'
 import pairwise from 'xstream/extra/pairwise'

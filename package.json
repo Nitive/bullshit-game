@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "modules/*"
+    "modules/*",
+    "modules/@eff/*"
   ],
   "dependencies": {
     "@types/jest": "^22.2.2",

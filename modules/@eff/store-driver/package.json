@@ -1,0 +1,7 @@
+{
+  "name": "@eff/store",
+  "version": "0.1.0",
+  "dependencies": {
+    "xstream": "^11.2.0"
+  }
+}

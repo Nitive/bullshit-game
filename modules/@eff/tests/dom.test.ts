@@ -1,8 +1,8 @@
 import h from 'snabbdom/h'
 import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
-import { EffectsDescriptor, run } from '../core/run'
-import { DOMSource, makeDomDriver } from '../dom-driver/client'
+import { EffectsDescriptor, run } from '@eff/core/run'
+import { DOMSource, makeDomDriver } from '@eff/dom/client'
 
 describe('DOM', () => {
   it('should render dom', () => {

@@ -7,7 +7,7 @@ node_js:
   - v8
 
 script:
-  - make lint
+  - make test
   - make production
 
 env:

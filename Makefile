@@ -45,8 +45,16 @@ dev-server: clean build-server
 prerender: clean build-client build-server
 	node -r ts-node/register ./modules/prerender
 
+tsc:
+	npx tsc -p . --noEmit --pretty
+
 lint:
 	npx tslint --project . --format stylish
+
+unit:
+	npx jest
+
+test: tsc lint unit
 
 production: prerender
 
@@ -58,8 +66,3 @@ build-production-like:
 static-server:
 	open http://localhost:3001/public/
 	python3 -m http.server 3001
-
-test:
-	npx tsc -p . --noEmit --pretty
-	npx tslint -p . --format stylish
-	npx jest

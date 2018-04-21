@@ -60,6 +60,6 @@ static-server:
 	python3 -m http.server 3001
 
 test:
-	npx tsc -p . --noEmit
+	npx tsc -p . --noEmit --pretty
 	npx tslint -p . --format stylish
 	npx jest

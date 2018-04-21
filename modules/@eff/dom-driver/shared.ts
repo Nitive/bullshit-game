@@ -4,12 +4,12 @@ import { EffectsDescriptor, isEffect } from '@eff/core/run'
 
 function selectDOMStream(effects: EffectsDescriptor): Stream<VNode | string | Array<VNode | string> | undefined> {
   if (effects instanceof Stream) {
-    return effects.map(selectDOMStream).flatten()
+    return (effects as Stream<VNode>).map(selectDOMStream).flatten()
   }
 
   if (Array.isArray(effects)) {
     return xs
-      .combine(...effects.map(selectDOMStream))
+      .combine(...(effects as Array<VNode>).map(selectDOMStream))
       .map((children: Array<VNode | VNode[] | string | string[] | undefined>) => {
         return children
           .reduce((acc, child) => {

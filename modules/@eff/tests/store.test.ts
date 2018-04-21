@@ -1,4 +1,4 @@
-import h from 'snabbdom/h'
+import h from '@eff/dom/h'
 import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
 import fromDiagram from 'xstream/extra/fromDiagram'

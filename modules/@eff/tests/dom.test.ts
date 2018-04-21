@@ -1,4 +1,4 @@
-import h from 'snabbdom/h'
+import h from '@eff/dom/h'
 import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
 import { EffectsDescriptor, run } from '@eff/core/run'
@@ -104,8 +104,10 @@ describe('DOM', () => {
         .events('click')
         .fold(acc => acc + 1, 0)
 
+      const description$ = clicks$.map(c => h('span', `clicked ${c}`))
+
       return (
-        h('div', { ref: appRef.id }, [clicks$.map(c => h('span', `clicked ${c}`)) as any])
+        h('div', { ref: appRef.id }, [description$])
       )
     }
 

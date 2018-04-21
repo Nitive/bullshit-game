@@ -1,5 +1,6 @@
 import xs, { Stream } from 'xstream'
-import { EffectsDescriptor, isEffect } from './run'
+import { EffectsDescriptor, isEffect, Effect } from './run'
+import { VNode } from 'snabbdom/vnode'
 
 export function selectEffectByType<Sink>(
   effectType: string,
@@ -15,11 +16,13 @@ export function selectEffectByType<Sink>(
   }
 
   if (eff instanceof Stream) {
-    return eff.map(e => selectEffectByType(effectType, e, reduceSinks)).flatten()
+    return (eff as Stream<VNode | Effect | string | Stream<VNode> | Array<VNode>>)
+      .map(e => selectEffectByType(effectType, e, reduceSinks))
+      .flatten()
   }
 
   if (Array.isArray(eff)) {
-    return eff
+    return (eff as Array<VNode | Effect | string | Stream<VNode>>)
       .map(e => selectEffectByType(effectType, e, reduceSinks))
       .reduce((acc, x) => reduceSinks(acc, x), xs.empty())
   }

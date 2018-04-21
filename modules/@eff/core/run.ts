@@ -8,11 +8,12 @@ export interface Effect {
   sink$: Stream<any>
 }
 
-export type _EffectsDescriptor = VNode | string | Effect
+type Container<T> = Stream<T> | Array<T>
+export type Eff = VNode | string | Effect
 export type EffectsDescriptor
-  = _EffectsDescriptor
-  | Stream<_EffectsDescriptor>
-  | Array<_EffectsDescriptor | Stream<_EffectsDescriptor>>
+  = Eff
+  | Container<Eff>
+  | Container<Container<Eff> | Eff>
 
 export interface Driver<Sink, Source> {
   run(sink: Sink): Source,

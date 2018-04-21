@@ -1,12 +1,57 @@
 import { init } from 'snabbdom'
 import { Driver } from '../core/run'
-import { Stream } from 'xstream'
+import xs, { Stream } from 'xstream'
 import { VNode } from 'snabbdom/vnode'
 import pairwise from 'xstream/extra/pairwise'
-import { selectDOMEff, DOMSource } from './shared'
+import { selectDOMEff, DOMSource, Ref } from './shared'
+import fromEvent from 'xstream/extra/fromEvent'
 
-function runDomEffect(sink: Stream<VNode>, node: HTMLElement) {
-  const withNode = (sink as Stream<VNode | HTMLElement>).startWith(node)
+function createRef(id: string, elm$: Stream<Node | undefined>): Ref<Node> {
+  return {
+    id,
+    elm$,
+    events(event: string) {
+      return elm$
+        .filter<Node>((x): x is Node => !!x)
+        .map(elm => fromEvent(elm, event))
+        .flatten()
+    },
+  }
+}
+
+function runDomEffect(vnode$: Stream<VNode>, node: HTMLElement) {
+  const refs: { [refId: string]: Ref<Node> } = {}
+
+  function addHooksForRefs(vnode: VNode): VNode {
+    if (vnode.data) {
+      const { ref: refId, ...data } = vnode.data
+
+      if (refId) {
+        return {
+          ...vnode,
+          data: {
+            ...data,
+            hook: {
+              insert: vn => {
+                refs[refId].elm$.shamefullySendNext(vn.elm || undefined)
+              },
+              update: vn => {
+                refs[refId].elm$.shamefullySendNext(vn.elm || undefined)
+              },
+              destroy: () => {
+                refs[refId].elm$.shamefullySendNext(undefined)
+              },
+            },
+          },
+        }
+      }
+    }
+    return vnode
+  }
+
+  const vnodeWithRefs$ = vnode$.map(addHooksForRefs)
+
+  const withNode = (vnodeWithRefs$ as Stream<VNode | HTMLElement>).startWith(node)
 
   const patch = init([
     require('snabbdom/modules/class').default,
@@ -28,7 +73,15 @@ function runDomEffect(sink: Stream<VNode>, node: HTMLElement) {
       },
     })
 
-  return {}
+  let refsCounter = 0
+  return {
+    createRef<T extends Node>(): Ref<T> {
+      refsCounter += 1
+      const refId = String(refsCounter)
+      refs[refId] = createRef(refId, xs.create<T | undefined>().remember())
+      return refs[refId] as Ref<T>
+    },
+  }
 }
 
 

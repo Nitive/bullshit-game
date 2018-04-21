@@ -88,4 +88,36 @@ describe('DOM', () => {
       done()
     })
   })
+
+  it('refs should work', () => {
+    interface Sources {
+      DOM: DOMSource,
+    }
+
+    interface Sinks {
+      DOM: Stream<VNode>
+    }
+
+    function app(sources: Sources): EffectsDescriptor {
+      const appRef = sources.DOM.createRef<HTMLDivElement>()
+      const clicks$ = appRef
+        .events('click')
+        .fold(acc => acc + 1, 0)
+
+      return (
+        h('div', { ref: appRef.id }, [clicks$.map(c => h('span', `clicked ${c}`)) as any])
+      )
+    }
+
+    document.body.innerHTML = '<div id="app"></div>'
+
+    run<Sources, Sinks>(app, {
+      DOM: makeDomDriver('#app'),
+    })
+
+    expect(document.body.innerHTML).toBe('<div><span>clicked 0</span></div>')
+    document.querySelector('div')!.click()
+
+    expect(document.body.innerHTML).toBe('<div><span>clicked 1</span></div>')
+  })
 })

@@ -69,5 +69,12 @@ export function selectDOMEff(effects: EffectsDescriptor): Stream<VNode> {
     })
 }
 
+export interface Ref<T> {
+  id: string,
+  elm$: Stream<T | undefined>,
+  events(event: string): Stream<Event>,
+}
+
 export interface DOMSource {
+  createRef<T extends Node>(): Ref<T>
 }

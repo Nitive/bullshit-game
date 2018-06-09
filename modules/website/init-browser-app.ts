@@ -1,21 +1,17 @@
-import 'utils/polyfills'
-import { render, createDOMSource } from 'renderer'
-import { createRouter } from 'router'
+import { run } from '@eff/core/run'
+import { makeDomDriver } from '@eff/dom/client'
+import { makeRouterDriver } from '@eff/router'
 import createBrowserHistory from 'history/createBrowserHistory'
+import 'utils/polyfills'
 import { main } from '.'
 
 const history = createBrowserHistory()
-const { router, runRouter } = createRouter(history)
 
-const sources = {
-  DOM: createDOMSource(),
-  router,
-}
+run(main, {
+  DOM: makeDomDriver('#app'),
+  router: makeRouterDriver(history),
+})
 
-const app = main(sources)
-
-render(app.DOM, document.getElementById('app')!)
-runRouter(app.router)
 
 if (process.env.NODE_ENV === 'production') {
   import('offline-plugin/runtime').then(offline => {

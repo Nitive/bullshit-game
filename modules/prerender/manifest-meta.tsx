@@ -20,7 +20,7 @@ export interface Manifest {
 }
 
 export function ManifestMeta({ publicPath, manifest }: { publicPath: string, manifest: Manifest }) {
-  const icons = manifest.icons
+  const icons = (manifest.icons || [])
     .map(icon => [
       h('link', { props: { rel: icon, sizes: icon.sizes, href: icon.src } }),
       h('link', { props: { rel: 'apple-touch-icon', sizes: icon.sizes, href: icon.src } }),

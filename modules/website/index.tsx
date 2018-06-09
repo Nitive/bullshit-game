@@ -1,14 +1,12 @@
-import * as Snabbdom from 'snabbdom-pragma'
 import { MistakesListPage } from './pages/list'
 import { data } from 'data'
-import { isTruly } from '../utils/is-truly'
 import { MistakePage } from './pages/mistake'
-import { AppSources, AppSinks } from './types'
-import { isLocalLink, isMistakeLink } from './utils/routing'
+import { Sources } from './types'
+import { isMistakeLink } from './utils/routing'
 require('./style.css')
 
-export function main({ router, DOM }: AppSources): AppSinks {
-  const vdom$ = router.location$
+export function main(sources: Sources) {
+  const vdom$ = sources.router.location$
     .map(location => {
       if (isMistakeLink(location.pathname)) {
         const mistakeId = location.pathname
@@ -19,27 +17,24 @@ export function main({ router, DOM }: AppSources): AppSinks {
         const mistake = mistakeGroup && mistakeGroup.mistakes.find(m => m.id === mistakeId)
 
         if (mistakeGroup && mistake) {
-          return <MistakePage mistake={mistake} color={mistakeGroup.color} />
+          return MistakePage(sources, { mistake, color: mistakeGroup.color })
         }
       }
-      return <MistakesListPage mistakesGroups={data.mistakesGroups} />
+      return MistakesListPage(sources, { mistakesGroups: data.mistakesGroups })
     })
 
-  const linksRedirects$ = DOM.selectEvents<MouseEvent>('body', 'click')
-    .filter(e => (e.target as HTMLAnchorElement).nodeName === 'A')
-    .map(event => {
-      const href = (event.target as HTMLAnchorElement).getAttribute('href')
-      if (href && isLocalLink(href)) {
-        event.preventDefault()
-        return router.push(href)
-      }
+  // const linksRedirects$ = DOM.selectEvents<MouseEvent>('body', 'click')
+  //   .filter(e => (e.target as HTMLAnchorElement).nodeName === 'A')
+  //   .map(event => {
+  //     const href = (event.target as HTMLAnchorElement).getAttribute('href')
+  //     if (href && isLocalLink(href)) {
+  //       event.preventDefault()
+  //       return router.push(href)
+  //     }
 
-      return undefined
-    })
-    .filter(isTruly)
+  //     return undefined
+  //   })
+  //   .filter(isTruly)
 
-  return {
-    DOM: vdom$,
-    router: linksRedirects$,
-  }
+  return vdom$
 }

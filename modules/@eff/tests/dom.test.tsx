@@ -5,7 +5,7 @@ import { EffectsDescriptor, run } from '@eff/core/run'
 import { DOMSource, makeDomDriver } from '@eff/dom/client'
 
 describe('DOM', () => {
-  it('should render dom', () => {
+  it.only('should render dom', () => {
     interface Sources {
       DOM: DOMSource,
     }
@@ -16,8 +16,8 @@ describe('DOM', () => {
 
     function app(_sources: Sources): EffectsDescriptor {
       return (
-        h('div', [
-          h('span', 'test'),
+        h('div', {}, [
+          h('span', {}, 'test'),
         ])
       )
     }
@@ -42,10 +42,10 @@ describe('DOM', () => {
 
     function app(_sources: Sources): EffectsDescriptor {
       return (
-        h('div', [
-          [h('span', '1')],
-          [[h('span', '2')]],
-          [[[h('span', '3')]]],
+        h('div', {}, [
+          [h('span', {}, '1')],
+          [[h('span', {}, '2')]],
+          [[[h('span', {}, '3')]]],
         ])
       )
     }
@@ -70,9 +70,9 @@ describe('DOM', () => {
 
     function app(_sources: Sources): EffectsDescriptor {
       return (
-        h('div', [
-          h('span', '1'),
-          xs.of(h('span', '2')),
+        h('div', {}, [
+          h('span', {}, '1'),
+          xs.of(h('span', {}, '2')),
         ])
       )
     }
@@ -104,7 +104,7 @@ describe('DOM', () => {
         .events('click')
         .fold(acc => acc + 1, 0)
 
-      const description$ = clicks$.map(c => h('span', `clicked ${c}`))
+      const description$ = clicks$.map(c => h('span', {}, `clicked ${c}`))
 
       return (
         h('div', { ref: appRef.id }, [description$])

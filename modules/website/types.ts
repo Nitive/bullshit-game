@@ -1,14 +1,14 @@
-import { Router, RouterAction } from 'router'
-import { DOMSource } from 'renderer'
+import { DOMSource } from '@eff/dom/client'
+import { RouterAction, RouterSource } from '@eff/router'
 import { VNode } from 'snabbdom/vnode'
 import { Stream } from 'xstream'
 
-export interface AppSources {
+export interface Sources {
   DOM: DOMSource,
-  router: Router,
+  router: RouterSource,
 }
 
-export interface AppSinks {
+export interface Sinks {
   DOM: Stream<VNode>,
   router: Stream<RouterAction>,
 }

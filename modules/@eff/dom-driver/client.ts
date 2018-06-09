@@ -32,14 +32,24 @@ function runDomEffect(vnode$: Stream<VNode>, node: HTMLElement) {
           data: {
             ...data,
             hook: {
+              ...data.hook,
               insert: vn => {
                 refs[refId].elm$.shamefullySendNext(vn.elm || undefined)
+                if (data.hook && data.hook.insert) {
+                  data.hook.insert(vn)
+                }
               },
-              update: vn => {
+              update: (old, vn) => {
                 refs[refId].elm$.shamefullySendNext(vn.elm || undefined)
+                if (data.hook && data.hook.update) {
+                  data.hook.update(old, vn)
+                }
               },
-              destroy: () => {
+              destroy: vn => {
                 refs[refId].elm$.shamefullySendNext(undefined)
+                if (data.hook && data.hook.destroy) {
+                  data.hook.destroy(vn)
+                }
               },
             },
           },

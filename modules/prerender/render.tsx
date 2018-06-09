@@ -1,16 +1,11 @@
 // import * as Snabbdom from 'snabbdom-pragma'
 import toHTML = require('snabbdom-to-html')
-import { createRouter } from 'router'
-import createMemoryHistory from 'history/createMemoryHistory'
-import { Stream } from 'xstream'
+import h from '@eff/dom/h'
 import * as path from 'path'
 import { VNode } from 'snabbdom/vnode'
-import { getEnv } from 'utils/get-env'
-import { createDOMSource } from 'renderer/server'
-import { AppSinks, AppSources } from 'website/types'
+import xs, { Stream } from 'xstream'
 import { Assets } from './assets-from-stats'
-import { ManifestMeta, Manifest } from './manifest-meta'
-import h from '@eff/dom/h'
+import { Manifest, ManifestMeta } from './manifest-meta'
 
 function renderMainTemplate(content: VNode, assets: Assets, manifest: Manifest) {
   return (
@@ -32,22 +27,30 @@ function renderMainTemplate(content: VNode, assets: Assets, manifest: Manifest) 
 }
 
 
-export function renderPage(pagePath: string, assets: Assets, manifest: Manifest): Stream<string> {
-  const appCodePath = path.join(getEnv('ROOT'), getEnv('ASSETS_FOLDER'), 'server/server.js')
-  const { main: appMain } = require(appCodePath)
-  const main: (sources: AppSources) => AppSinks = appMain
+export function renderPage(_pagePath: string, assets: Assets, manifest: Manifest): Stream<string> {
+  // const appCodePath = path.join(getEnv('ROOT'), getEnv('ASSETS_FOLDER'), 'server/server.js')
+  // const { main: appMain } = require(appCodePath)
+  // const main: (sources: Sources) => Sinks = appMain
 
-  const history = createMemoryHistory({ initialEntries: [pagePath] })
-  const { router, runRouter } = createRouter(history)
-  const app = main({
-    router,
-    DOM: createDOMSource(),
-  })
-  runRouter(app.router)
-
-  return app.DOM
-    .take(1)
+  // const history = createMemoryHistory({ initialEntries: [pagePath] })
+  // // const { router, runRouter } = createRouter(history)
+  // const app = main({
+  //   router,
+  //   DOM: createDOMSource(),
+  // })
+  // runRouter(app.router)
+  // run(main, {
+  //   // DOM:
+  //   router: makeRouterDriver(history),
+  // })
+  return xs.of(h('span', 'Loading...'))
     .map(vdom => renderMainTemplate(vdom, assets, manifest))
     .map(toHTML)
     .map(html => '<!DOCTYPE html>' + html)
+
+//   return app.DOM
+//     .take(1)
+//     .map(vdom => renderMainTemplate(vdom, assets, manifest))
+//     .map(toHTML)
+//     .map(html => '<!DOCTYPE html>' + html)
 }

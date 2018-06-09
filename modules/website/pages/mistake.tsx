@@ -7,12 +7,13 @@ import { Box } from '../ui/box'
 import { ColorMark } from '../ui/color-mark'
 import { Page } from '../ui/page'
 import { Title } from '../ui/title'
+import { Sources } from '../types'
 
-export function MistakePage(props: { mistake: IMistake, color: string }) {
+export function MistakePage(sources: Sources, props: { mistake: IMistake, color: string }) {
   const { mistake } = props
   return (
     Page({}, [
-      ToList(),
+      ToList(sources) as any,
       Box({ top: 25, bottom: 15 }, [
         ColorMark({ color: props.color }),
       ]),
@@ -21,7 +22,7 @@ export function MistakePage(props: { mistake: IMistake, color: string }) {
         Title({}, mistake.fullName),
       ]),
       ExamplesList({ examples: mistake.examples }),
-      Footer(),
+      Footer(sources),
     ])
   )
 }

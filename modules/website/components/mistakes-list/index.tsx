@@ -2,27 +2,33 @@ import { h } from '@eff/dom/h'
 import { IMistake, IMistakesGroup } from 'data'
 import { ColorMark } from '../../ui/color-mark'
 import { mistakeLink } from '../../utils/routing'
+import { Link } from '../link'
+import { Sources } from '../../types'
 const styles = require('./style.css')
 
-function Mistake({ mistake }: { mistake: IMistake }) {
+function Mistake(sources: Sources, { mistake }: { mistake: IMistake }) {
   return (
     h('li', { props: { className: styles.mistake } }, [
-      h('a', { props: { className: styles.mistakeLink, href: mistakeLink(mistake.id) } }, mistake.shortName),
+      Link(
+        sources,
+        { className: styles.mistakeLink, href: mistakeLink(mistake.id) },
+        mistake.shortName,
+      ) as any,
     ])
   )
 }
 
-function MistakesGroup({ group }: { group: IMistakesGroup }) {
+function MistakesGroup(sources: Sources, { group }: { group: IMistakesGroup }) {
   return (
     h('div', [
       ColorMark({ color: group.color }),
       h('ul', { props: { className: styles.mistakesGroup } }, [
-        ...group.mistakes.map(mistake => Mistake({ mistake })),
+        ...group.mistakes.map(mistake => Mistake(sources, { mistake })),
       ]),
     ])
   )
 }
 
-export function MistakesGroupsList(props: { mistakesGroups: IMistakesGroup[] }) {
-  return props.mistakesGroups.map(group => MistakesGroup({ group }))
+export function MistakesGroupsList(sources: Sources, props: { mistakesGroups: IMistakesGroup[] }) {
+  return props.mistakesGroups.map(group => MistakesGroup(sources, { group }))
 }

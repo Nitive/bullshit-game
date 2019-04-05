@@ -15,24 +15,36 @@ export function toPromise<T>(stream: Stream<T>): Promise<T> {
   })
 }
 
-function run(app: any): Promise<string> {
-  const sinks = app({ DOM: undefined, fn: undefined })
-  return toPromise<string>(sinks.DOM.map(toHTML))
+function composeEffFunctions(f: () => void, g: () => void) {
+  return () => {
+    f()
+    g()
+  }
+}
+
+function runFnEff(fn$: Stream<(() => void) | void>): Promise<void> {
+  const finalFn$ = fn$.filter(Boolean).fold(composeEffFunctions, () => {})
+
+  return toPromise(finalFn$).then(f => f())
 }
 
 function runWithEffs(app: any): { DOM: Promise<string>, fn: Promise<void> } {
   const sinks = app({ DOM: undefined, fn: undefined })
 
-  const fnP = sinks.fn ?
-    toPromise((sinks.fn).fold((f: () => void, g: () => void) => () => { f(); g() }, () => {}))
-      .then((f: () => void) => f())
-    : Promise.resolve()
-
   return {
     DOM: toPromise<string>(sinks.DOM.map(toHTML)),
-    fn: fnP,
+    fn: runFnEff(sinks.fn || xs.empty()),
   }
 }
+
+function run(app: any): Promise<string> {
+  return runWithEffs(app).DOM
+}
+
+function invoke(fn: () => void) {
+  return { effectType: 'fn', sink$: xs.of(fn) }
+}
+
 
 describe('jsx', () => {
   it('should render plain div', async () => {
@@ -109,7 +121,7 @@ describe('jsx', () => {
 
   it('should render div with effect child', async () => {
     const fn = jest.fn()
-    const effs = runWithEffs(<div>{{ effectType: 'fn', sink$: xs.of(fn) }}</div>)
+    const effs = runWithEffs(<div>{invoke(fn)}</div>)
     expect(await effs.DOM).toBe('<div></div>')
     await effs.fn
     expect(fn).toHaveBeenCalledTimes(1)
@@ -120,8 +132,8 @@ describe('jsx', () => {
     const fn2 = jest.fn()
     const effs = runWithEffs(
       <div>
-        {{ effectType: 'fn', sink$: xs.of(fn) }}
-        {{ effectType: 'fn', sink$: xs.of(fn2) }}
+        {invoke(fn)}
+        {invoke(fn2)}
       </div>,
     )
     expect(await effs.DOM).toBe('<div></div>')
@@ -188,5 +200,36 @@ describe('jsx', () => {
     }
 
     expect(await run(<Button><Button/></Button>)).toBe('<button><button></button></button>')
+  })
+
+  it('should render simple component with stream of component child', async () => {
+    function Button(props: { children?: any }) {
+      return <button>{props.children}</button>
+    }
+
+    expect(await run(<Button>{xs.of(<Button/>)}</Button>)).toBe('<button><button></button></button>')
+  })
+
+  it('should render div with stream of span child', async () => {
+    expect(await runWithEffs(<div>{xs.of(<span />)}</div>).DOM).toBe('<div><span></span></div>')
+  })
+
+  it('should render div with stream of effect child', async () => {
+    const fn = jest.fn()
+    const effs = runWithEffs(<div>{xs.of(invoke(fn))}</div>)
+    expect(await effs.DOM).toBe('<div></div>')
+    await effs.fn
+    expect(fn).toHaveBeenCalledTimes(1)
+  })
+
+  it('should render simple component with stream of component child', async () => {
+    const checkSources = jest.fn()
+    function Button(_props: any, sources: any) {
+      checkSources(sources)
+      return <button />
+    }
+
+    expect(await run(<Button />)).toBe('<button></button>')
+    expect(checkSources).toHaveBeenCalledWith({ DOM: undefined, fn1: undefined })
   })
 })

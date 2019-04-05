@@ -1,12 +1,14 @@
-import { VNode } from 'snabbdom/vnode'
 import { h } from 'snabbdom/h'
+import { VNode } from 'snabbdom/vnode'
 import xs, { Stream } from 'xstream'
 import { Component, Element } from './types'
 
 function createHTMLElement<Props>(tag: string, props: Props, children$?: Stream<any>): Stream<VNode> {
   if (children$) {
     return children$
-      .map(children => h(tag, { props }, children))
+      .map(children => {
+        return h(tag, { props }, children)
+      })
   }
 
   return xs.of(h(tag, { props }))
@@ -16,7 +18,9 @@ function sinksStreamToSinks<Sinks, Sources>(sinksStream: Stream<Sinks>, sources:
   const sinks = {}
 
   Object.keys(sources).map(driver => {
-    (sinks as any)[driver] = sinksStream.map(sinks => (sinks as any)[driver]).flatten()
+    (sinks as any)[driver] = sinksStream
+      .map(sinks => (sinks as any)[driver] || xs.of(undefined))
+      .flatten()
   })
 
   return sinks
@@ -35,7 +39,8 @@ function getChildren<Sources>(children: any, sources: Sources): { DOM?: Stream<a
     const chs = children
       .map(c => getChildren(c, sources))
 
-    return sinksStreamToSinks(chs, sources)
+    const res = sinksStreamToSinks(chs, sources)
+    return res
   }
 
   if (Array.isArray(children)) {
@@ -45,7 +50,7 @@ function getChildren<Sources>(children: any, sources: Sources): { DOM?: Stream<a
     const domChildren = normalizedChildren.map(c => c.DOM).filter(Boolean) as Stream<any>[]
 
     const DOM = xs.combine(...domChildren)
-      .map(xs => xs.reduce((acc, x) => acc.concat(x), []))
+      .map(arr => arr.reduce((acc, x) => acc.concat(x), []))
 
     const effsKeys = Object.keys(sources).filter(x => x !== 'DOM')
     const effs = normalizedChildren.reduce((acc: any, sinks: any) => {

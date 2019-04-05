@@ -2,6 +2,7 @@ import xs, { Stream } from 'xstream'
 import { keys } from '../utils/keys'
 import { mapObject } from '../utils/map-object'
 import { Effects } from '@eff/dom/h'
+import { Element } from '@eff/dom/types'
 
 export interface Effect {
   effectType: string,
@@ -22,7 +23,7 @@ export interface Driver<Sink, Source> {
 }
 
 export function run<Sources, Sinks extends { [K in keyof Sources]: Stream<any> }>(
-  main: (sources: Sources) => Effects,
+  main: Element<Sources, Sinks>,
   drivers: { [K in keyof Sources]: Driver<Sinks[K], Sources[K]> },
 ) {
   type Drivers = typeof drivers
